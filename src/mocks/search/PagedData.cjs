@@ -1,35 +1,37 @@
-const { Page } = require("suitecloud-unit-testing-stubs/stubs/search.js")
-const { addPromise, options } = require("../../helpers.cjs")
+const { addPromise, options, required, assignConstructor } = require("../../helpers.cjs")
 const PageRange = require("./PageRange.cjs")
+const Page = require("./Page.cjs")
 
-
+@assignConstructor()
 class PagedData {
     results = []
-
-    count
-    pageRanges
-    pageSize
+    pageSize = 50
     searchDefinition
 
-    constructor({results, pageSize}) {
-        this.results = results
-        this.count = results.length
-        this.pageSize = pageSize
-        this.pageRanges = new Array(Math.ceil(this.count / pageSize)).map((_, index) => 
+    get count() {
+        return this.results.length
+    }
+
+    get pageRanges() {
+        return new Array(Math.ceil(this.count / this.pageSize)).fill(0).map((_, index) =>
             new PageRange({index})
         )
     }
 
     @addPromise()
     @options("index")
+    @required("index")
     fetch = options => {
         const index = +options.index
+        if(!(index in this.pageRanges)) {
+            throw new Error("invalid page index")
+        }
         return new Page({
             data: this.results.slice(index * this.pageSize, (index * this.pageSize) + this.pageSize),
             isFirst: index === 0,
             isLast: index === this.pageRanges.length - 1,
             pagedData: this,
-            pageRnage: new PageRange({index})
+            pageRange: new PageRange({index})
         })
     }
 }

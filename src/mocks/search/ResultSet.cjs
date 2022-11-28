@@ -1,12 +1,10 @@
-const { options, addPromise } = require("../../helpers")
+const { options, addPromise } = require("../../helpers");
+const { assignConstructor } = require("../../helpers.cjs");
 
+@assignConstructor()
 class ResultSet {
-    results = [];
-
-    constructor({columns, results}) {
-        this.columns = columns
-        this.results = results
-    }
+    results = []
+    columns = []
 
     @addPromise()
     each = (callback) => {

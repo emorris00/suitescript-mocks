@@ -1,5 +1,4 @@
-const SuiteCloudJestStubs = require("suitecloud-unit-testing-stubs")
-const helpers = require("./lib/helpers.cjs");
+const SuiteScriptMocks = require("./lib/index.cjs");
 
 global.log = {
 	debug: () => {},
@@ -9,12 +8,4 @@ global.log = {
 
 global.alert = () => {}
 
-module.exports = {
-    UserEventType: helpers.UserEventType,
-    createUserEventContext: helpers.createUserEventContext,
-    customStubs: [
-        ...SuiteCloudJestStubs.customStubs,
-        { module: "N/record", path: "<rootDir>/node_modules/netsuite-mocks/lib/mocks/record" },
-        { module: "N/search", path: "<rootDir>/node_modules/netsuite-mocks/lib/mocks/search" },
-    ]
-}
+module.exports = SuiteScriptMocks

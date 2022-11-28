@@ -2,16 +2,18 @@ const Column = require("./Column.cjs")
 const ResultSet = require("./ResultSet.cjs")
 const PagedData = require("./PagedData.cjs")
 const { options, addPromise } = require("../../helpers")
+const SuiteScriptMocks = require("../../../index.cjs")
+const { assignConstructor } = require("../../helpers.cjs")
 
+@assignConstructor()
 class Search {
+    id
+    searchId
+    searchType
+    title
+    columns
+    filters
     results
-
-    constructor({id, type, columns, results}) {
-        this.searchId = id
-        this.searchType = type
-        this.columns = columns
-        this.results = results
-    }
 
     run = () => {
         return new ResultSet({
@@ -22,13 +24,36 @@ class Search {
 
     @options("pageSize")
     runPaged = options => {
+        const pageSize = options.pageSize || 50
+        if(pageSize < 5 || pageSize > 1000) {
+            throw new Error("page size is outside allowed range")
+        }
         return new PagedData({
-            results: this.results,
-            pageSize: options.pageSize || 50
+            results: this.results || [],
+            pageSize: pageSize
         })
     }
 
-    save() {}
+    save() {
+        if(!this.title) {
+            throw new Error("search title not set")
+        }
+        if(!this.searchId || !SuiteScriptMocks.searches.has({searchId: this.searchId})) {
+            if(SuiteScriptMocks.searches.has({id: this.id})) {
+                throw new Error("search script id is already in use")
+            }
+            if(SuiteScriptMocks.searches.has({title: this.title})) {
+                throw new Error("search title is already in use")
+            }
+        }
+        if(!this.searchId) {
+            this.searchId = Math.max(SuiteScriptMocks.searches.map(a => a.searchId)) + 1
+        }
+        if(!this.id) {
+            this.id = `customsearch_${this.searchId}`
+        }
+        SuiteScriptMocks.searches.set(new Search(this))
+    }
 }
 
 module.exports = Search

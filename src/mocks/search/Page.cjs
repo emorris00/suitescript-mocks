@@ -1,20 +1,12 @@
-const { addPromise } = require("../../helpers.cjs")
+const { addPromise, assignConstructor } = require("../../helpers.cjs")
 
+@assignConstructor()
 class Page {
-
     data = []
     isFirst
     isLast
     pagedData
     pageRange
-
-    constructor({data, isFirst, isLast, pagedData, pageRange}) {
-        this.data = data
-        this.isFirst = isFirst
-        this.isLast = isLast
-        this.pagedData = pagedData
-        this.pageRange = pageRange
-    }
 
     @addPromise()
     next = () => {

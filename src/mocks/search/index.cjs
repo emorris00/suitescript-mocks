@@ -1,54 +1,46 @@
-const _search = require("Suitecloud-unit-testing-stubs/stubs/search")
+const searchStub = require("Suitecloud-unit-testing-stubs/stubs/search")
 const Column = require("./Column")
 const Filter = require("./Filter")
-const Search = require("./Search")
-const ResultSet = require("./ResultSet")
+const Page = require("./Page")
+const PagedData = require("./PagedData")
+const PageRange = require("./PageRange")
 const Result = require("./Result")
+const ResultSet = require("./ResultSet")
+const Search = require("./Search")
 const { options, addPromise } = require("../../helpers")
+const SuiteScriptMocks = require("../../../index.cjs")
+const { required, toRecord } = require("../../helpers.cjs")
 
 class search {
-    results = []
-    lookupFieldsResults = []
-    #id = 0
-
-    Operator = _search.Operator
-    Sort = _search.Sort
-    Summary = _search.Summary
-    Type = _search.Type
+    Operator = searchStub.Operator
+    Sort = searchStub.Sort
+    Summary = searchStub.Summary
+    Type = searchStub.Type
 
     Column = Column
-    Search = Search
-    ResultSet = ResultSet
+    Filter = Filter
+    Page = Page
+    PagedData = PagedData
+    PageRange = PageRange
     Result = Result
-
-    _addResults(results) {
-        this.results.push(results)
-        return this
-    }
-
-    _setResults(results) {
-        this.results = results
-    }
-
-    _addLookupFieldsResults(results) {
-        this.lookupFieldsResults.push(results)
-        return this
-    }
+    ResultSet = ResultSet
+    Search = Search
 
     @addPromise()
+    @required("type")
     create = ({type, columns, filters}) => {
         columns = columns.map(column => this.createColumn(column));
         return new Search({
-            type,
+            searchType: type,
             columns,
             filters,
-            results: this.results.shift().map(row => {
+            results: SuiteScriptMocks.searchResults.shift().map(row => {
                 return new Result({
-                    id: row.id || row.values.internalid || this.#id++,
+                    id: row.id || row.values.internalid,
                     recordType: row.recordType || type,
                     columns: columns,
                     values: columns.reduce((acc, cur, i) => {
-                        acc.set(cur.toRecord(), row.values[i])
+                        acc.set(toRecord(cur), row.values[i])
                         return acc
                     }, new Map())
                 })
@@ -71,7 +63,12 @@ class search {
 
     @addPromise()
     @options("id", "type")
-    delete = options => {}
+    delete = options => {
+        if(!SuiteScriptMocks.searches.has({id: options.id, searchId: options.id})) {
+            throw new Error("search does not exist")
+        }
+        SuiteScriptMocks.searches.delete({id: options.id, searchId: options.id})
+    }
 
     duplicates = options => {}
 
@@ -79,12 +76,17 @@ class search {
     global = options => {}
 
     @addPromise()
-    load = options => {}
+    load = options => {
+        if(!SuiteScriptMocks.searches.has({id: options.id, searchId: options.id})) {
+            throw new Error("search does not exist")
+        }
+        return SuiteScriptMocks.searches.get({id: options.id, searchId: options.id})
+    }
 
     @addPromise()
     @options("type", "id", "columns")
     lookupFields = options => {
-        return this.lookupFieldsResults.shift() || {}
+        return SuiteScriptMocks.lookupFieldsResults.get(options)
     }
 }
 

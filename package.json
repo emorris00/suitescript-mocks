@@ -38,6 +38,7 @@
   "dependencies": {
     "@bloomberg/record-tuple-polyfill": "^0.0.4",
     "@oracle/suitecloud-unit-testing": "^1.2.1",
+    "core-js-pure": "^3.26.1",
     "suitecloud-unit-testing-stubs": "^1.0.4"
   }
 }

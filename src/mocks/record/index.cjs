@@ -1,27 +1,12 @@
-const { Tuple } = require("@bloomberg/record-tuple-polyfill");
-const _record = require("suitecloud-unit-testing-stubs/stubs/record");
+const recordStub = require("suitecloud-unit-testing-stubs/stubs/record");
+const SuiteScriptMocks = require("../../index.cjs");
 const { addPromise, options } = require("../../helpers.cjs");
 const Record = require("./Record");
 
 class record {
     Record = Record
 
-    Type = _record.Type
-
-    _addRecords = records => {
-        records.forEach(record => {
-            Record.records.set(Tuple(record.type, record.id), record)
-        })
-        return this
-    }
-
-    _getSavedRecord = (type) => {
-        let index = 0
-        if(type) {
-            index = Record.savedRecords.findIndex(record => record.type === type)
-        }
-        return Record.savedRecords.splice(index, 1)[0]
-    }
+    Type = recordStub.Type
 
     @addPromise()
     @options("record", "to", "attributes")
@@ -49,7 +34,10 @@ class record {
     @addPromise()
     @options("type", "id")
     delete = options => {
-        return Record.records.delete(Tuple(options.type, options.id)) && options.id || false
+        if(!SuiteScriptMocks.records.has(options)) {
+            throw new Error("Record does not exist")
+        }
+        return SuiteScriptMocks.records.delete(options) && options.id || false
     }
 
     @addPromise()
@@ -59,30 +47,25 @@ class record {
     @addPromise()
     @options("type", "id", "isDynamic", "defaultValues")
     load = options => {
-        try {
-            let record = Record.records.get(Tuple(options.type, options.id))
-            if(!record) {
-                throw new Error("Record does not exist")
-            }
-            record = new Record({
-                ...record,
-                isDynamic: Boolean(options.isDynamic) || false,
-                fields: {
-                    ...record.fields,
-                    ...(options.defaultValues || {})
-                },
-            })
-            return record
+        let record = SuiteScriptMocks.records.get(options)
+        if(!record) {
+            throw new Error("Record does not exist")
         }
-        catch(e) {
-            console.log("ERROR", e)
-        }
+        record = new Record({
+            ...record,
+            isDynamic: Boolean(options.isDynamic) || false,
+            fields: {
+                ...record.fields,
+                ...(options.defaultValues || {})
+            },
+        })
+        return record
     }
 
     @addPromise()
     @options("type", "id", "values", "options")
     submitFields = options => {
-        const record = Record.records.get(Tuple(options.type, options.id))
+        const record = SuiteScriptMocks.records.get(options)
         record.fields = {
             ...record.fields,
             ...options.values
