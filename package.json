@@ -5,8 +5,13 @@
   "main": "index.js",
   "type": "module",
   "exports": {
-    "import": "./index.js",
-    "require": "./index.cjs"
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./record": "./lib/mocks/record/index.cjs",
+    "./runtime": "./lib/mocks/runtime/index.cjs",
+    "./search": "./lib/mocks/search/index.cjs"
   },
   "scripts": {
     "build": "babel --keep-file-extension src -d lib",
