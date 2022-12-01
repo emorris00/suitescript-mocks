@@ -110,6 +110,39 @@ describe("search.Record", () => {
         })
     })
 
+    describe("getSublistText", () => {
+        it("should return text if it exists", () => {
+            expect(Record.getSublistText("test", "test2", 0)).toBe("test2")
+        })
+        it("should return value if field is an object and text doesn't exist and in dynamic mode", () => {
+            delete Record.sublists.test.lines[0].test2.text
+            expect(Record.getSublistText("test", "test2", 0)).toBe(2)
+        })
+        it("should return value if field is not an object", () => {
+            expect(Record.getSublistText("test", "test", 0)).toBe(1)
+        })
+        it("should return undefined if field doesn't exist", () => {
+            expect(Record.getSublistText("test", "doesntexist", 0)).toBe(undefined)
+        })
+        it("should throw error if sublist doesn't exist", () => {
+            expect(() => {
+                Record.getSublistText("doesntexist", "test", 0)
+            }).toThrow()
+        })
+        it("should throw error if sublist line doesn't exist", () => {
+            expect(() => {
+                Record.getSublistText("test", "test", -1)
+            }).toThrow()
+        })
+        it("should throw error if record is in standard mode and field value has been set and field text has not", () => {
+            Record.isDynamic = false
+            Record.setSublistValue("test", "test3", 0, 3)
+            expect(() => {
+                Record.getSublistText("test", "test3", 0)
+            }).toThrow()
+        })
+    })
+
     describe("getSublistValue", () => {
         it("should return value if sublist field exists", () => {
             expect(Record.getSublistValue("test", "test", 0)).toBe(1)
@@ -147,6 +180,10 @@ describe("search.Record", () => {
     describe("getText", () => {
         it("should return text if it exists", () => {
             expect(Record.getText("test2")).toBe("test2")
+        })
+        it("should return value if field is an object and text doesn't exist and in dynamic mode", () => {
+            delete Record.fields.test2.text
+            expect(Record.getText("test2")).toBe(2)
         })
         it("should return value if field is not an object", () => {
             expect(Record.getText("test")).toBe(1)

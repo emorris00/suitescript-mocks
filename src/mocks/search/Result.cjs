@@ -1,29 +1,31 @@
 const Column = require("./Column")
-const { options, toRecord, assignConstructor } = require("../../helpers.cjs");
+const { options, assignConstructor, toRecord } = require("../../helpers.cjs");
 
 @assignConstructor()
 class Result {
     id
     recordType
     columns
-    values = new Map()
+    values = []
 
     @options("name", "join", "summary", "func")
     getText = options => {
-        const rec = typeof options.name === "object" && options.name instanceof Column
+        const column = typeof options.name === "object" && options.name instanceof Column
             ? options.name
             : new Column(options)
-        const field = this.values.get(toRecord(rec))
-        return typeof field === "object" ? (field.text || field.value) : field
+        const index = this.columns.findIndex(a => toRecord(a) == toRecord(column))
+        const field = this.values[index]
+        return typeof field === "object" && field !== null ? (field.text || field.value) : field
     }
 
     @options("name", "join", "summary", "func")
     getValue = options => {
-        const rec = typeof options.name === "object" && options.name instanceof Column
+        const column = typeof options.name === "object" && options.name instanceof Column
             ? options.name
             : new Column(options)
-        const field = this.values.get(toRecord(rec))
-        return typeof field === "object" ? field.value : field
+        const index = this.columns.findIndex(a => toRecord(a) == toRecord(column))
+        const field = this.values[index]
+        return typeof field === "object" && field !== null ? field.value : field
     }
 }
 

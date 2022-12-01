@@ -10,9 +10,7 @@ beforeEach(() => {
                 id: 1,
                 recordType: "salesorder",
                 columns: [column],
-                values: {
-                    internalid: 1
-                }
+                values: [1]
             })
         ]
     })

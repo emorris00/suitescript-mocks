@@ -11,11 +11,12 @@ beforeEach(() => {
             new search.Column({name: "test2"}),
             new search.Column({name: "test3"}),
         ],
-        values: new Map()
+        values: [
+            1,
+            {value: 2},
+            {value: 3, text: "test3"}
+        ]
     })
-    Result.values.set(toRecord(Result.columns[0]), 1)
-    Result.values.set(toRecord(Result.columns[1]), {value: 2})
-    Result.values.set(toRecord(Result.columns[2]), {value: 3, text: "test3"})
 })
 
 describe("search.Result", () => {

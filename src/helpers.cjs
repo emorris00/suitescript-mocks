@@ -1,3 +1,4 @@
+const structuredClone = require('core-js-pure/actual/structured-clone');
 const { Record } = require("@bloomberg/record-tuple-polyfill")
 
 function fieldInitDecorator(target) {
@@ -102,11 +103,12 @@ class Decorators {
                     super()
                     if(typeof values === "object" && values !== undefined) {
                         Object.entries(values).forEach(([key, value]) => {
-                            if(key in this) {
+                            if(key in this && typeof this[key] !== "function") {
                                 this[key] = value
                             }
                         })
                     }
+                    this?.initialize?.()
                 }
             }
         }

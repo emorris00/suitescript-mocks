@@ -2,34 +2,31 @@
 const structuredClone = require('core-js-pure/actual/structured-clone');
 const { randomUUID } = require("node:crypto")
 const SuiteScriptMocks = require("../../index.cjs")
-const { options, required, addPromise, dynamicModeOnly, standardModeOnly } = require("../../helpers.cjs");
+const { options, required, addPromise, dynamicModeOnly, standardModeOnly, assignConstructor } = require("../../helpers.cjs");
 
+@assignConstructor()
 class Record {
-    id
-    type
+    id = null
+    type = null
     fields = {}
     sublists = {}
     subrecords = {}
     isDynamic = false
     version = 1
 
-    constructor({id, type, fields, sublists, subrecords, isDynamic, version}) {
-        this.id = id || null
-        this.type = type || null
-        this.fields = structuredClone(fields || {})
-        this.sublists = Object.entries(structuredClone(sublists) || {}).reduce((acc, [key, value]) => {
-            acc[key] = {
+    initialize = () => {
+        this.fields = structuredClone(this.fields)
+        this.sublists = Object.entries(structuredClone(this.sublists) || {}).reduce((acc, [lineId, lines]) => {
+            acc[lineId] = {
                 currentline: {},
-                lines: "lines" in value ? value.lines : value
+                lines: "lines" in lines ? lines.lines : lines
             }
             return acc
         }, {})
-        this.subrecords = Object.entries(subrecords || {}).reduce((acc, [key, value]) => {
-            acc[key] = new Record(value)
+        this.subrecords = Object.entries(this.subrecords || {}).reduce((acc, [subrecordId, subrecord]) => {
+            acc[subrecordId] = new Record(subrecord)
             return acc
         }, {})
-        this.isDynamic = Boolean(isDynamic) || false
-        this.version = version || 1
     }
 
     @dynamicModeOnly()
@@ -72,7 +69,23 @@ class Record {
 
     getCurrentSublistSubrecord = options => {}
 
-    getCurrentSublistText = options => {}
+    @dynamicModeOnly()
+    @options("sublistId", "fieldId")
+    @required("sublistId", "fieldId")
+    getCurrentSublistText = options => {
+        const sublist = this.sublists[options.sublistId]
+        if(sublist === undefined) {
+            return null
+        }
+        if(!("currentline" in sublist)) {
+            this.selectNewLine(sublist)
+        }
+        const field = sublist.currentline[options.fieldId]
+        if(typeof field === "object" && field !== null) {
+            return field.text || field.value
+        }
+        return field
+    }
 
     @dynamicModeOnly()
     @options("sublistId", "fieldId")
@@ -130,7 +143,18 @@ class Record {
 
     getSublistSubrecord = options => {}
 
-    getSublistText = options => {}
+    @options("sublistId", "fieldId", "line")
+    @required("sublistId", "fieldId", "line")
+    getSublistText = options => {
+        const field = this.sublists[options.sublistId].lines[options.line][options.fieldId]
+        if(typeof field === "object" && field !== null) {
+            if(!this.isDynamic && !("text" in field)) {
+                throw new Error("Cannot use getSublistText on field that has had value but not text set in standard mode")
+            }
+            return field.text || field.value
+        }
+        return field
+    }
 
     @options("sublistId", "fieldId", "line")
     @required("sublistId", "fieldId", "line")
@@ -159,7 +183,7 @@ class Record {
             if(!this.isDynamic && !("text" in field)) {
                 throw new Error("Cannot use getText on field that has had value but not text set in standard mode")
             }
-            return field.text
+            return field.text || field.value
         }
         return field
     }
@@ -259,7 +283,16 @@ class Record {
 
     setCurrentMatrixSublistValue = options => {}
 
-    setCurrentSublistText = options => {}
+    @dynamicModeOnly()
+    @options("sublistId", "fieldId", "text")
+    @required("sublistId", "fieldId", "text")
+    setCurrentSublistText = options => {
+        const sublist = this?.sublists?.[options.sublistId]
+        if(sublist === undefined || !("currentline" in sublist)) {
+            throw new Error("sublist doesn't exist or line is not selected")
+        }
+        return sublist.currentline[options.fieldId] = {value: options.text, text: options.text}
+    }
 
     @dynamicModeOnly()
     @options("sublistId", "fieldId", "value")
@@ -267,7 +300,7 @@ class Record {
     setCurrentSublistValue = options => {
         const sublist = this?.sublists?.[options.sublistId]
         if(sublist === undefined || !("currentline" in sublist)) {
-            throw new Error()
+            throw new Error("sublist doesn't exist or line is not selected")
         }
         return sublist.currentline[options.fieldId] = {value: options.value}
     }
@@ -276,7 +309,16 @@ class Record {
 
     setMatrixSublistValue = options => {}
 
-    setSublistText = options => {}
+    @standardModeOnly()
+    @options("sublistId", "fieldId", "line", "text")
+    @required("sublistId", "fieldId", "line", "text")
+    setSublistText = options => {
+        const sublist = this?.sublists?.[options.sublistId]
+        if(sublist === undefined || !(options.line in sublist.lines)) {
+            throw new Error("sublist or line doesn't exist")
+        }
+        sublist.lines[options.line][options.fieldId] = {value: options.text, text: options.text}
+    }
 
     @standardModeOnly()
     @options("sublistId", "fieldId", "line", "value")

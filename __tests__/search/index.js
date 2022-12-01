@@ -40,6 +40,15 @@ describe("search", () => {
             expect(s.results.length).toBe(1)
             expect(s.results[0]).toBeInstanceOf(search.Result)
         })
+        it("should create search with correct results", () => {
+            const s = search.create({
+                type: search.Type.SALES_ORDER,
+                columns: ["internalid"],
+                filters: [["internalid", "anyof", [1]]]
+            })
+            expect(s.results.length).toBe(1)
+            expect(s.results[0].getValue("internalid")).toBe(1)
+        })
     })
 
     describe("createColumn", () => {

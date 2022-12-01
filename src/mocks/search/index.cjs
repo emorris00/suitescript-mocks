@@ -39,10 +39,7 @@ class search {
                     id: row.id || row.values.internalid,
                     recordType: row.recordType || type,
                     columns: columns,
-                    values: columns.reduce((acc, cur, i) => {
-                        acc.set(toRecord(cur), row.values[i])
-                        return acc
-                    }, new Map())
+                    values: row.values
                 })
             })
         })
