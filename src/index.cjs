@@ -34,9 +34,9 @@ class SuiteScriptMocks {
 
     stubs = [
         ...SuiteCloudJestStubs.customStubs,
-        { module: "N/record", path: "<rootDir>/node_modules/netsuite-mocks/lib/mocks/record" },
-        { module: "N/runtime", path: "<rootDir>/node_modules/netsuite-mocks/lib/mocks/runtime" },
-        { module: "N/search", path: "<rootDir>/node_modules/netsuite-mocks/lib/mocks/search" },
+        { module: "N/record", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/record/index.cjs" },
+        { module: "N/runtime", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/runtime/index.cjs" },
+        { module: "N/search", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/search/index.cjs" },
     ]
 }
 
