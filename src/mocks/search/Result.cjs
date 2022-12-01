@@ -1,4 +1,4 @@
-const Column = require("./Column")
+const Column = require("./Column.cjs")
 const { options, assignConstructor, toRecord } = require("../../helpers.cjs");
 
 @assignConstructor()
