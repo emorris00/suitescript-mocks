@@ -1,5 +1,4 @@
-const { options, addPromise } = require("../../helpers");
-const { assignConstructor } = require("../../helpers.cjs");
+const { options, addPromise, assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class ResultSet {

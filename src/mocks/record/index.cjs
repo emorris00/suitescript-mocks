@@ -1,7 +1,7 @@
 const recordStub = require("suitecloud-unit-testing-stubs/stubs/record");
 const SuiteScriptMocks = require("../../index.cjs");
 const { addPromise, options } = require("../../helpers.cjs");
-const Record = require("./Record");
+const Record = require("./Record.cjs");
 
 class record {
     Record = Record

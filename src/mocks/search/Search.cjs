@@ -1,9 +1,8 @@
 const Column = require("./Column.cjs")
 const ResultSet = require("./ResultSet.cjs")
 const PagedData = require("./PagedData.cjs")
-const { options, addPromise } = require("../../helpers")
 const SuiteScriptMocks = require("../../../index.cjs")
-const { assignConstructor } = require("../../helpers.cjs")
+const { options, addPromise, assignConstructor } = require("../../helpers.cjs")
 
 @assignConstructor()
 class Search {

@@ -1,5 +1,5 @@
-const SuiteScriptMocks = require("../../index.cjs")
 const runtimeStub = require("suitecloud-unit-testing-stubs/stubs/runtime")
+const SuiteScriptMocks = require("../../index.cjs")
 const { options, required } = require("../../helpers.cjs")
 const Script = require("./Script.cjs")
 const Session = require("./Session.cjs")
