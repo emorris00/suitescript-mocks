@@ -3,6 +3,10 @@ const KeyedSet = require("./keyed-set.cjs")
 const { createUserEventContext, keyedSetGetSet } = require("./helpers.cjs");
 
 class SuiteScriptMocks {
+    outputDebugLogs = false
+    outputErrorLogs = true
+    outputAuditLogs = false
+
     @keyedSetGetSet()
     #records = new KeyedSet(value => [value.id, value.type])
     savedRecords = []
