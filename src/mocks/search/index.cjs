@@ -1,4 +1,4 @@
-const searchStub = require("Suitecloud-unit-testing-stubs/stubs/search")
+const searchStub = require("suitecloud-unit-testing-stubs/stubs/search")
 const Column = require("./Column.cjs")
 const Filter = require("./Filter.cjs")
 const Page = require("./Page.cjs")
