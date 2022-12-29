@@ -42,6 +42,7 @@ class SuiteScriptMocks {
         { module: "N/runtime", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/runtime/index.cjs" },
         { module: "N/search", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/search/index.cjs" },
         { module: "N/url", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/url/index.cjs" },
+        { module: "N/ui/serverWidget", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/ui/serverWidget/index.cjs" },
     ]
 }
 
