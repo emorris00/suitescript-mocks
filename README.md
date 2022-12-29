@@ -10,13 +10,13 @@ jest.config.js
 ```js
 import SuiteCloudJestConfiguration from "@oracle/suitecloud-unit-testing/jest-configuration/SuiteCloudJestConfiguration.js";
 import { defaults } from "jest-config";
-import { customStubs } from "netsuite-mocks";
+import SuiteScriptMocks from "suitescript-mocks";
 import cliConfig from "./suitecloud.config.js";
 
 const config = SuiteCloudJestConfiguration.build({
 	projectFolder: cliConfig.defaultProjectFolder,
 	projectType: SuiteCloudJestConfiguration.ProjectType.ACP,
-	customStubs: customStubs,
+	customStubs: SuiteScriptMocks.stubs,
 });
 
 export default {
