@@ -5,7 +5,7 @@ const Script = require("./Script.cjs")
 const Session = require("./Session.cjs")
 const User = require("./User.cjs")
 
-class runtime {
+class Runtime {
     accountId
     country
     envType
@@ -41,4 +41,4 @@ class runtime {
     }
 }
 
-module.exports = new runtime()
+module.exports = new Runtime()

@@ -96,6 +96,19 @@ class Decorators {
         }
     }
 
+    // autobind() {
+    //     return function(target, context) {
+    //         return class extends target {
+    //             constructor(...args) {
+    //                 super(...args)
+    //                 for() {
+
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
     assignConstructor() {
         return function(target, context) {
             return class extends target {
@@ -164,7 +177,6 @@ module.exports = {
     standardModeOnly: decorators.standardModeOnly,
     keyedSetGetSet: decorators.keyedSetGetSet,
     assignConstructor: decorators.assignConstructor,
-    mock: decorators.mock,
     UserEventType,
     createUserEventContext,
     toRecord: toRecord

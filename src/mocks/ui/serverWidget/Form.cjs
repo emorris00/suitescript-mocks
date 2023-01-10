@@ -5,6 +5,8 @@ const Button = require("./Button.cjs");
 
 @assignConstructor()
 class Form {
+    buttons = {}
+    fields = {}
     title
     clientScriptFileId
     clientScriptModulePath
@@ -12,7 +14,9 @@ class Form {
     @options("id", "label", "functionName")
     @required("id", "label")
     addButton = options => {
-        return new Button(options)
+        const button = new Button(options)
+        this.buttons[options.id] = button
+        return button
     }
 
     @options("id", "label", "restrictToDomains", "restrictToScriptIds", "restrictToCurrentUser", "container")
@@ -25,7 +29,9 @@ class Form {
         if(!options.id.startsWith("custpage")) {
             throw new Error("Field id must begin with custpage")
         }
-        return new Field(options)
+        const field = new Field(options)
+        this.fields[options.id] = field
+        return field
     }
 
     @options("id", "label", "tab")
@@ -62,11 +68,15 @@ class Form {
 
     @options("id")
     @required("id")
-    getButton = options => {}
+    getButton = options => {
+        return this.buttons[options.id]
+    }
 
     @options("id")
     @required("id")
-    getField = options => {}
+    getField = options => {
+        return this.fields[options.id]
+    }
 
     @options("id")
     @required("id")
