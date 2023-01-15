@@ -2,10 +2,10 @@ const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class SearchTaskStatus {
-    fileId
-    savedSearchId
-    status
-    taskId
+	fileId;
+	savedSearchId;
+	status;
+	taskId;
 }
 
-module.exports = SearchTaskStatus
+module.exports = SearchTaskStatus;

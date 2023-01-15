@@ -1,9 +1,9 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class CjsImportTaskStatus {
-    status
-    taskId
+	status;
+	taskId;
 }
 
-module.exports = CjsImportTaskStatus
+module.exports = CjsImportTaskStatus;

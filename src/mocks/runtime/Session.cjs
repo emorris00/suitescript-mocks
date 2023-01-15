@@ -1,20 +1,20 @@
-const { options, required, assignConstructor } = require("../../helpers.cjs")
+const { options, required, assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class Session {
-    values
+	values;
 
-    @options("name")
-    @required("name")
-    get = (options) => {
-        return this.values[options.name]
-    }
+	@options("name")
+	@required("name")
+	get = (options) => {
+		return this.values[options.name];
+	};
 
-    @options("name", "value")
-    @required("name", "value")
-    set = (options) => {
-        this.values[options.name] = options.value
-    }
+	@options("name", "value")
+	@required("name", "value")
+	set = (options) => {
+		this.values[options.name] = options.value;
+	};
 }
 
-module.exports = Session
+module.exports = Session;

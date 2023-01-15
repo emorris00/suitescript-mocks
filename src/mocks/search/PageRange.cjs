@@ -1,9 +1,9 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class PageRange {
-    compoundLabel
-    index
+	compoundLabel;
+	index;
 }
 
-module.exports = PageRange
+module.exports = PageRange;

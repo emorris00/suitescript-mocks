@@ -1,7 +1,6 @@
 const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
-class Filter {
-}
+class Filter {}
 
-module.exports = Filter
+module.exports = Filter;

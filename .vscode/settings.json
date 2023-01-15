@@ -1,0 +1,18 @@
+
+{
+	"editor.rulers": [120],
+	"[javascript]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+	},
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"editor.wordWrapColumn": 120,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true,
+		"source.organizeImports": true
+	},
+	"eslint.codeActionsOnSave.rules": null,
+	"eslint.format.enable": true,
+	"files.eol": "\n"
+}

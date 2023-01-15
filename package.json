@@ -24,6 +24,68 @@
     "url": "https://github.com/emorris00"
   },
   "license": "ISC",
+  "prettier": {
+    "tabWidth": 4,
+    "useTabs": true,
+    "printWidth": 120
+  },
+  "eslintConfig": {
+    "plugins": [
+      "prettier"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "google",
+      "prettier"
+    ],
+	"parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "ecmaVersion": 2022,
+      "sourceType": "module",
+      "legacyDecorators": true
+    },
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "globals": {
+      "define": "readonly",
+      "log": "readonly"
+    },
+    "ignorePatterns": [
+      "suitecloud.config.js"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "arrow-body-style": "off",
+      "prefer-arrow-callback": "off",
+      "no-sparse-arrays": "off",
+      "require-jsdoc": [
+        "error",
+        {
+          "require": {
+            "FunctionDeclaration": false,
+            "MethodDefinition": false,
+            "ClassDeclaration": false,
+            "ArrowFunctionExpression": false,
+            "FunctionExpression": false
+          }
+        }
+      ]
+    },
+    "overrides": [
+      {
+        "files": [
+          "__tests__/**/*.js"
+        ],
+        "env": {
+          "es6": true,
+          "jest": true,
+          "jasmine": true
+        }
+      }
+    ]
+  },
   "babel": {
     "sourceMaps": "inline",
     "plugins": [
@@ -38,8 +100,14 @@
   "devDependencies": {
     "@babel/cli": "^7.19.3",
     "@babel/core": "^7.19.6",
+    "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-decorators": "^7.20.0",
-    "jest": "^29.2.0"
+    "eslint": "^8.32.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^29.2.0",
+    "prettier": "^2.8.3"
   },
   "dependencies": {
     "@bloomberg/record-tuple-polyfill": "^0.0.4",

@@ -1,15 +1,15 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class RecordActionTask {
-    action
-    condition
-    id
-    paramCallback
-    params
-    recordType
+	action;
+	condition;
+	id;
+	paramCallback;
+	params;
+	recordType;
 
-    submit = () => {}
+	submit = () => {};
 }
 
-module.exports = RecordActionTask
+module.exports = RecordActionTask;

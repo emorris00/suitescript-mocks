@@ -1,15 +1,15 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class EntityDeduplicationTask {
-    dedupeMode
-    entityType
-    id
-    masterRecordId
-    masterSelectionMode
-    recordIds
+	dedupeMode;
+	entityType;
+	id;
+	masterRecordId;
+	masterSelectionMode;
+	recordIds;
 
-    submit = () => {}
+	submit = () => {};
 }
 
-module.exports = EntityDeduplicationTask
+module.exports = EntityDeduplicationTask;

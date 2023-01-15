@@ -1,19 +1,19 @@
-const { options, required, assignConstructor } = require("../../helpers.cjs")
+const { options, required, assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class QueryTask {
-    fileId
-    filePath
-    inboundDependencies = []
-    query
+	fileId;
+	filePath;
+	inboundDependencies = [];
+	query;
 
-    @options("scriptId", "taskType", "deploymentId", "params")
-    @required("scriptId", "taskType")
-    addInboundDependency = (options) => {
-        this.inboundDependencies.push(options)
-    }
+	@options("scriptId", "taskType", "deploymentId", "params")
+	@required("scriptId", "taskType")
+	addInboundDependency = (options) => {
+		this.inboundDependencies.push(options);
+	};
 
-    submit = () => {}
+	submit = () => {};
 }
 
-module.exports = QueryTask
+module.exports = QueryTask;

@@ -1,9 +1,9 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class EntityDeduplicationTaskStatus {
-    status
-    taskId
+	status;
+	taskId;
 }
 
-module.exports = EntityDeduplicationTaskStatus
+module.exports = EntityDeduplicationTaskStatus;

@@ -1,10 +1,10 @@
-const { assignConstructor } = require("../../../helpers.cjs")
+const { assignConstructor } = require("../../../helpers.cjs");
 
 @assignConstructor()
 class Button {
-    isDisabled = false
-    isHidden = false
-    label
+	isDisabled = false;
+	isHidden = false;
+	label;
 }
 
-module.exports = Button
+module.exports = Button;

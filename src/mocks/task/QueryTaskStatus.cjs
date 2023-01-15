@@ -1,11 +1,11 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class QueryTaskStatus {
-    fileId
-    query
-    status
-    taskId
+	fileId;
+	query;
+	status;
+	taskId;
 }
 
-module.exports = QueryTaskStatus
+module.exports = QueryTaskStatus;

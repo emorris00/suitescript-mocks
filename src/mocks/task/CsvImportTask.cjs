@@ -1,15 +1,15 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class CsvImportTask {
-    id
-    importFile
-    linkedFiles
-    mappingId
-    name
-    queueId
+	id;
+	importFile;
+	linkedFiles;
+	mappingId;
+	name;
+	queueId;
 
-    submit = () => {}
+	submit = () => {};
 }
 
-module.exports = CsvImportTask
+module.exports = CsvImportTask;

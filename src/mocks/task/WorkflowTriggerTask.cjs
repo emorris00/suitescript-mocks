@@ -1,14 +1,14 @@
-const { assignConstructor } = require("../../helpers.cjs")
+const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class WorkflowTriggerTask {
-    id
-    params
-    recordId
-    recordType
-    workflowId
+	id;
+	params;
+	recordId;
+	recordType;
+	workflowId;
 
-    submit = () => {}
+	submit = () => {};
 }
 
-module.exports = WorkflowTriggerTask
+module.exports = WorkflowTriggerTask;

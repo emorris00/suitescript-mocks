@@ -6,7 +6,7 @@ export default {
 		"project:deploy": {
 			beforeExecuting: async args => {
 				await SuiteCloudJestUnitTestRunner.run({
-				    // Jest configuration options.
+					// Jest configuration options.
 				});
 				return args;
 			},

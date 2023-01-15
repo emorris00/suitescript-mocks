@@ -2,12 +2,12 @@ const { assignConstructor } = require("../../helpers.cjs");
 
 @assignConstructor()
 class ScheduledScriptTask {
-    deploymentId
-    id
-    params
-    scriptId
+	deploymentId;
+	id;
+	params;
+	scriptId;
 
-    submit = () => {}
+	submit = () => {};
 }
 
-module.exports = ScheduledScriptTask
+module.exports = ScheduledScriptTask;

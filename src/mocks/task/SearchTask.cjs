@@ -2,19 +2,19 @@ const { assignConstructor, options, required } = require("../../helpers.cjs");
 
 @assignConstructor()
 class SearchTask {
-    fileId
-    filePath
-    id
-    inboundDependencies = []
-    savedSearchId
+	fileId;
+	filePath;
+	id;
+	inboundDependencies = [];
+	savedSearchId;
 
-    @options("dependentScript")
-    @required("dependentScript")
-    addInboundDependency = (options) => {
-        this.inboundDependencies.push(options)
-    }
+	@options("dependentScript")
+	@required("dependentScript")
+	addInboundDependency = (options) => {
+		this.inboundDependencies.push(options);
+	};
 
-    submit = () => {}
+	submit = () => {};
 }
 
-module.exports = SearchTask
+module.exports = SearchTask;
