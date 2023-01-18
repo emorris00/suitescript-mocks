@@ -6,12 +6,12 @@ const PagedData = require("./PagedData.cjs");
 const PageRange = require("./PageRange.cjs");
 const Result = require("./Result.cjs");
 const ResultSet = require("./ResultSet.cjs");
-const _Search = require("./Search.cjs");
+const Search = require("./Search.cjs");
 const { options, addPromise } = require("../../helpers.cjs");
 const SuiteScriptMocks = require("../../../index.cjs");
 const { required } = require("../../helpers.cjs");
 
-class Search {
+class SearchModule {
 	Operator = searchStub.Operator;
 	Sort = searchStub.Sort;
 	Summary = searchStub.Summary;
@@ -24,7 +24,7 @@ class Search {
 	PageRange = PageRange;
 	Result = Result;
 	ResultSet = ResultSet;
-	Search = _Search;
+	Search = Search;
 
 	@addPromise()
 	@required("type")
@@ -87,4 +87,4 @@ class Search {
 	};
 }
 
-module.exports = new Search();
+module.exports = new SearchModule();

@@ -4,7 +4,7 @@ const Button = require("./Button.cjs");
 const Field = require("./Field.cjs");
 const Form = require("./Form.cjs");
 
-class ServerWidget {
+class ServerWidgetModule {
 	Button = Button;
 	Field = Field;
 	Form = Form;
@@ -35,4 +35,4 @@ class ServerWidget {
 	createList = (options) => {};
 }
 
-module.exports = new ServerWidget();
+module.exports = new ServerWidgetModule();

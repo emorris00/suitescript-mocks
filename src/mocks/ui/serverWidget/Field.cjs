@@ -1,4 +1,5 @@
 const { options, required, assignConstructor } = require("../../../helpers.cjs");
+const serverWidgetStub = require("suitecloud-unit-testing-stubs/stubs/serverWidget.js");
 
 @assignConstructor()
 class Field {
@@ -17,7 +18,7 @@ class Field {
 	source;
 	container;
 	help;
-	options;
+	options = [];
 	height;
 	width;
 
@@ -43,6 +44,9 @@ class Field {
 	@options("breakType")
 	@required("breakType")
 	updateBreakType = (options) => {
+		if (!Object.values(serverWidgetStub.FieldBreakType).includes(options.breakType)) {
+			throw new Error("Invalid value for breakType");
+		}
 		this.breakType = options.breakType;
 		return this;
 	};
@@ -58,6 +62,9 @@ class Field {
 	@options("displayType")
 	@required("displayType")
 	updateDisplayType = (options) => {
+		if (!Object.values(serverWidgetStub.FieldDisplayType).includes(options.displayType)) {
+			throw new Error("Invalid value for displayType");
+		}
 		this.displayType = options.displayType;
 		return this;
 	};
@@ -65,6 +72,9 @@ class Field {
 	@options("layoutType")
 	@required("layoutType")
 	updateLayoutType = (options) => {
+		if (!Object.values(serverWidgetStub.FieldLayoutType).includes(options.layoutType)) {
+			throw new Error("Invalid value for layoutType");
+		}
 		this.layoutType = options.layoutType;
 		return this;
 	};

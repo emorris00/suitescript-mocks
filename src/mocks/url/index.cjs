@@ -1,7 +1,7 @@
 const urlStub = require("suitecloud-unit-testing-stubs/stubs/url");
 const { options, required } = require("../../helpers.cjs");
 
-class Url {
+class UrlModule {
 	HostType = urlStub.HostType;
 
 	@options("domain", "params")
@@ -27,4 +27,4 @@ class Url {
 	resolveTaskLink = () => {};
 }
 
-module.exports = new Url();
+module.exports = new UrlModule();

@@ -27,7 +27,7 @@ taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.SEARCH), require("./SearchTa
 taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.SUITE_QL), require("./SuiteQLTaskStatus.cjs"));
 taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.WORKFLOW_TRIGGER), require("./WorkflowTriggerTaskStatus.cjs"));
 
-class Task {
+class TaskModule {
 	ActionCondition = taskStub.ActionCondition;
 	DedupeEntityType = taskStub.DedupeEntityType;
 	DedupeMode = taskStub.DedupeMode;
@@ -57,4 +57,4 @@ class Task {
 	};
 }
 
-module.exports = new Task();
+module.exports = new TaskModule();

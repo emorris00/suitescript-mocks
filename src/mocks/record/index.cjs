@@ -1,10 +1,10 @@
 const recordStub = require("suitecloud-unit-testing-stubs/stubs/record");
 const SuiteScriptMocks = require("../../index.cjs");
 const { addPromise, options } = require("../../helpers.cjs");
-const _Record = require("./Record.cjs");
+const Record = require("./Record.cjs");
 
-class Record {
-	Record = _Record;
+class RecordModule {
+	Record = Record;
 
 	Type = recordStub.Type;
 
@@ -83,4 +83,4 @@ class Record {
 	};
 }
 
-module.exports = new Record();
+module.exports = new RecordModule();
