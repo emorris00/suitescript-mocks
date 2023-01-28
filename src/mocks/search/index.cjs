@@ -34,7 +34,7 @@ class SearchModule {
 			searchType: type,
 			columns,
 			filters,
-			results: SuiteScriptMocks.searchResults.shift().map((row) => {
+			results: (SuiteScriptMocks.searchResults.shift() || []).map((row) => {
 				return new Result({
 					id: row.id || row.values.internalid,
 					recordType: row.recordType || type,
