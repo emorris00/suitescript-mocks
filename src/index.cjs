@@ -23,6 +23,10 @@ class SuiteScriptMocks {
 	@keyedSetGetSet()
 	#lookupFieldsResults = new KeyedSet((value) => [value.id, value.searchId]);
 
+	caches = {};
+
+	sentEmails = [];
+
 	tasks = [];
 
 	currentScript;
@@ -38,12 +42,17 @@ class SuiteScriptMocks {
 		this.#searches.clear();
 		this.#lookupFieldsResults.clear();
 		this.tasks = [];
+		this.caches = {};
+		this.sentEmails = [];
 	};
 
 	createUserEventContext = createUserEventContext;
 
 	stubs = [
 		...SuiteCloudJestStubs.customStubs,
+		{ module: "N/cache", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/cache/index.cjs" },
+		{ module: "N/email", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/email/index.cjs" },
+		{ module: "N/encode", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/encode/index.cjs" },
 		{ module: "N/record", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/record/index.cjs" },
 		{ module: "N/runtime", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/runtime/index.cjs" },
 		{ module: "N/search", path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/search/index.cjs" },
