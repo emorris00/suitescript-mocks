@@ -11,4 +11,4 @@ class ConfigModule {
 	};
 }
 
-export default new ConfigModule();
+module.exports = new ConfigModule();
