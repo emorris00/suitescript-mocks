@@ -12,7 +12,7 @@ jest.config.js
 import SuiteCloudJestConfiguration from "@oracle/suitecloud-unit-testing/jest-configuration/SuiteCloudJestConfiguration.js";
 import { defaults } from "jest-config";
 import SuiteScriptMocks from "suitescript-mocks";
-import cliConfig from "./suitecloud.config.js";
+import cliConfig from "./suitecloud.config.mjs";
 
 const config = SuiteCloudJestConfiguration.build({
 	projectFolder: cliConfig.defaultProjectFolder,
@@ -27,6 +27,25 @@ export default {
 ```
 
 suitecloud.config.js
+```js
+const SuiteCloudJestUnitTestRunner = require("@oracle/suitecloud-unit-testing/services/SuiteCloudJestUnitTestRunner.js");
+
+module.exports = {
+    defaultProjectFolder: "src",
+    commands: {
+        "project:deploy": {
+            beforeExecuting: async (args) => {
+                await SuiteCloudJestUnitTestRunner.run({
+                    // Jest configuration options.
+                });
+                return args;
+            },
+        },
+    },
+};
+```
+
+suitecloud.config.mjs
 ```js
 import SuiteCloudJestUnitTestRunner from '@oracle/suitecloud-unit-testing/services/SuiteCloudJestUnitTestRunner.js';
 
