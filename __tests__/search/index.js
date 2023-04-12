@@ -45,6 +45,14 @@ describe("search", () => {
 			expect(s.results.length).toBe(1);
 			expect(s.results[0].getValue("internalid")).toBe(1);
 		});
+		it("should create valid columns when using dot join notation", () => {
+			const s = search.create({
+				type: search.Type.SALES_ORDER,
+				columns: ["item.displayname"],
+			});
+			expect(s.columns[0].join).toBe("item");
+			expect(s.columns[0].name).toBe("displayname");
+		});
 	});
 
 	describe("createColumn", () => {
