@@ -1,7 +1,6 @@
 # SuiteScript Mocks
 
-This is a set of mocks for unit testing Netsuite. Currently this only mostly mocks N/search and N/record. All other modules are using stubs from https://github.com/KyleJonesWinsted/suitecloud-unit-testing-stubs.
-
+This is a set of mocks for unit testing Netsuite. Modules that don't have a mock written for them instead use a stub from https://github.com/KyleJonesWinsted/suitecloud-unit-testing-stubs.
 
 Setup:
 
