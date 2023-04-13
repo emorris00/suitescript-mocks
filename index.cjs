@@ -13,7 +13,7 @@ global.log = {
 	},
 	audit: (...args) => {
 		if (SuiteScriptMocks.outputAuditLogs) {
-			console.audit(args);
+			console.info(args);
 		}
 	},
 };
