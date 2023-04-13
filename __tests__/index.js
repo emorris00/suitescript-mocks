@@ -1,49 +1,32 @@
 import SuiteScriptMocks from "../index.cjs";
+import _log from "../lib/mocks/log/index.cjs";
 
-const consoleLog = jest.spyOn(console, "log").mockImplementation(() => {});
-const consoleError = jest.spyOn(console, "error").mockImplementation(() => {});
-const consoleInfo = jest.spyOn(console, "info").mockImplementation(() => {});
 beforeEach(() => {
 	SuiteScriptMocks.reset();
 	jest.clearAllMocks();
 });
-describe("index.js", () => {
-	describe("outputDebugLogs", () => {
-		it("should output debug logs to console when true", () => {
-			SuiteScriptMocks.outputDebugLogs = true;
-			log.debug("test");
-			expect(consoleLog).toHaveBeenCalled();
-		});
-		it("should not output debug logs to console when false", () => {
-			SuiteScriptMocks.outputDebugLogs = false;
-			log.debug("test");
-			expect(consoleLog).not.toHaveBeenCalled();
-		});
+describe("global log", () => {
+	it("global log.audit should call module log.audit", () => {
+		const logAudit = jest.spyOn(_log, "audit");
+		log.audit("test");
+		expect(logAudit).toHaveBeenCalled();
 	});
 
-	describe("outputErrorLogs", () => {
-		it("should output error logs to console when true", () => {
-			SuiteScriptMocks.outputErrorLogs = true;
-			log.error("test");
-			expect(consoleError).toHaveBeenCalled();
-		});
-		it("should not output debug logs to console when false", () => {
-			SuiteScriptMocks.outputErrorLogs = false;
-			log.error("test");
-			expect(consoleError).not.toHaveBeenCalled();
-		});
+	it("global log.debug should call module log.debug", () => {
+		const logDebug = jest.spyOn(_log, "debug");
+		log.debug("test");
+		expect(logDebug).toHaveBeenCalled();
 	});
 
-	describe("outputAuditLogs", () => {
-		it("should output debug logs to console when true", () => {
-			SuiteScriptMocks.outputAuditLogs = true;
-			log.audit("test");
-			expect(consoleInfo).toHaveBeenCalled();
-		});
-		it("should not output debug logs to console when false", () => {
-			SuiteScriptMocks.outputAuditLogs = false;
-			log.audit("test");
-			expect(consoleInfo).not.toHaveBeenCalled();
-		});
+	it("global log.emergency should call module log.emergency", () => {
+		const logEmergency = jest.spyOn(_log, "emergency");
+		log.emergency("test");
+		expect(logEmergency).toHaveBeenCalled();
+	});
+
+	it("global log.error should call module log.error", () => {
+		const logError = jest.spyOn(_log, "error");
+		log.error("test");
+		expect(logError).toHaveBeenCalled();
 	});
 });
