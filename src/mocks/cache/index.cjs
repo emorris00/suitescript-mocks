@@ -11,10 +11,13 @@ class CacheModule {
 	@options("name", "scope")
 	@required("name")
 	getCache = (options) => {
-		if (!(options.name in SuiteScriptMocks)) {
-			SuiteScriptMocks[options.name] = new Cache(options);
+		if (!options.scope) {
+			options.scope = this.Scope.PRIVATE;
 		}
-		return SuiteScriptMocks[options.name];
+		if (!SuiteScriptMocks.caches.has(options)) {
+			SuiteScriptMocks.caches.set(new Cache(options));
+		}
+		return SuiteScriptMocks.caches.get(options);
 	};
 }
 

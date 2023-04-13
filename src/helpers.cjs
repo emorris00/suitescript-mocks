@@ -82,7 +82,7 @@ class Decorators {
 	}
 
 	@fieldInitDecorator
-	keyedSetGetSet() {
+	addKeyedSetGetSet() {
 		return function (value, context) {
 			/* eslint-disable */
 			Object.defineProperty(this, context.name.replace("#", ""), {
@@ -166,7 +166,7 @@ module.exports = {
 	addPromise: decorators.addPromise,
 	dynamicModeOnly: decorators.dynamicModeOnly,
 	standardModeOnly: decorators.standardModeOnly,
-	keyedSetGetSet: decorators.keyedSetGetSet,
+	addKeyedSetGetSet: decorators.addKeyedSetGetSet,
 	assignConstructor: decorators.assignConstructor,
 	UserEventType,
 	createUserEventContext,

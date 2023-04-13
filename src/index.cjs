@@ -1,18 +1,19 @@
 const SuiteCloudJestStubs = require("suitecloud-unit-testing-stubs");
 const KeyedSet = require("./keyed-set.cjs");
-const { createUserEventContext, keyedSetGetSet } = require("./helpers.cjs");
+const { createUserEventContext, addKeyedSetGetSet } = require("./helpers.cjs");
 
 class SuiteScriptMocks {
-	outputDebugLogs = false;
-	outputErrorLogs = true;
 	outputAuditLogs = false;
+	outputDebugLogs = false;
+	outputEmergencyLogs = false;
+	outputErrorLogs = false;
 
-	@keyedSetGetSet()
+	@addKeyedSetGetSet()
 	#records = new KeyedSet((value) => [value.id, value.type]);
 	savedRecords = [];
 	createdRecords = [];
 
-	@keyedSetGetSet()
+	@addKeyedSetGetSet()
 	#searches = new KeyedSet(
 		(value) => value.id,
 		(value) => value.searchId,
@@ -20,10 +21,11 @@ class SuiteScriptMocks {
 	);
 	searchResults = [];
 
-	@keyedSetGetSet()
+	@addKeyedSetGetSet()
 	#lookupFieldsResults = new KeyedSet((value) => [value.id, value.searchId]);
 
-	caches = {};
+	@addKeyedSetGetSet()
+	#caches = new KeyedSet((value) => [value.name, value.scope]);
 
 	sentEmails = [];
 
@@ -42,7 +44,7 @@ class SuiteScriptMocks {
 		this.#searches.clear();
 		this.#lookupFieldsResults.clear();
 		this.tasks = [];
-		this.caches = {};
+		this.#caches.clear();
 		this.sentEmails = [];
 	};
 
