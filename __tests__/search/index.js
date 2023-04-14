@@ -96,4 +96,8 @@ describe("search", () => {
 			expect(search.load({ id: "customsearch_1" })).toBe(SuiteScriptMocks.searches[0]);
 		});
 	});
+
+	describe("lookupFields", () => {
+		// TODO
+	});
 });

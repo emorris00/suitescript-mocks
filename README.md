@@ -71,6 +71,11 @@ The SuiteScriptMocks object exported by default by this package has a number of 
 | outputDebugLogs | Choose whether or not to output debug logs to the console. |
 | outputErrorLogs | Choose whether or not to output error logs to the console. |
 | outputAuditLogs | Choose whether or not to output audit logs to the console. |
+| currentScript | Details loaded when using runtime.getCurrentScript() |
+| currentUser | Details loaded when using runtime.getCurrentUser() |
+| currentSession | Details loaded when using runtime.getCurrentSession() |
+| caches | Map of caches used by cache.getCache. |
+| sentEmails | List of emails sent using N/email. |
 | records | List of records used by record.load, etc. Use Record constructor when creating records to add to this. |
 | savedRecords | List of records that have been saved. |
 | createdRecords | List of records that have been created. |
@@ -78,12 +83,8 @@ The SuiteScriptMocks object exported by default by this package has a number of 
 | runSearches | List of searches that have been run. |
 | searchResults | List of search results used to mock dynamically created and executed searches. Every search created with search.create will consume the first element in the list. |
 | lookupFieldsResults | List of results used to mock search.lookupFields. Every call to search.lookupFields will consume the first element in the list. |
-| caches | Map of caches used by cache.getCache. |
-| sentEmails | List of emails sent using N/email. |
-| tasks | List of created tasks. |
-| currentScript | Details loaded when using runtime.getCurrentScript() |
-| currentUser | Details loaded when using runtime.getCurrentUser() |
-| currentSession | Details loaded when using runtime.getCurrentSession() |
+| taskStatuses | List of task statuses used by task.checkStatus. |
+| submittedTasks | List of submitted tasks. |
 | reset | Function used to reset the state of the mocks library. Advisable to do before every test run, likely in a beforeEach. |
 
 For specific examples please look at the tests.

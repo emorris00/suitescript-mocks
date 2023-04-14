@@ -89,7 +89,7 @@ class SearchModule {
 	@addPromise()
 	@options("type", "id", "columns")
 	lookupFields = (options) => {
-		return SuiteScriptMocks.lookupFieldsResults.get(options);
+		return SuiteScriptMocks.lookupFieldsResults.shift();
 	};
 }
 
