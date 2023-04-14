@@ -3,6 +3,7 @@ import record from "../../lib/mocks/record/index.cjs";
 
 let Record;
 beforeEach(() => {
+	SuiteScriptMocks.reset();
 	Record = new record.Record({
 		id: 1,
 		type: record.Type.SALES_ORDER,
@@ -29,7 +30,6 @@ beforeEach(() => {
 		},
 	});
 	SuiteScriptMocks.records = [Record];
-	Record = new record.Record(Record);
 });
 
 describe("search.Record", () => {
@@ -236,6 +236,12 @@ describe("search.Record", () => {
 			Record.save();
 			expect(Record.id).not.toBe(null);
 		});
+		it("should add incremented id", () => {
+			const newRecord = new record.Record(Record);
+			newRecord.id = null;
+			newRecord.save();
+			expect(newRecord.id).toBe(2);
+		});
 		it("should return created id", () => {
 			Record.id = null;
 			SuiteScriptMocks.records = [];
@@ -280,6 +286,18 @@ describe("search.Record", () => {
 			expect(() => {
 				Record.save();
 			}).not.toThrow();
+		});
+		it("should add record to SuiteScriptMocks.savedRecords", () => {
+			Record.save();
+			expect(SuiteScriptMocks.savedRecords[0].id).toBe(Record.id);
+		});
+		it("should add record to SuiteScriptMocks.createdRecords if the record was created", () => {
+			const newRecord = new record.Record(Record);
+			newRecord.id = null;
+			newRecord.save();
+			expect(newRecord.id).not.toBe(Record.id);
+			expect(SuiteScriptMocks.savedRecords[0]).not.toBeNull();
+			expect(SuiteScriptMocks.savedRecords[0].id).toBe(newRecord.id);
 		});
 	});
 

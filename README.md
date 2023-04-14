@@ -75,6 +75,7 @@ The SuiteScriptMocks object exported by default by this package has a number of 
 | savedRecords | List of records that have been saved. |
 | createdRecords | List of records that have been created. |
 | searches | List of searches used by search.load, etc. Use Search constructor when creating searches to add to this. |
+| runSearches | List of searches that have been run. |
 | searchResults | List of search results used to mock dynamically created and executed searches. Every search created with search.create will consume the first element in the list. |
 | lookupFieldsResults | List of results used to mock search.lookupFields. Every call to search.lookupFields will consume the first element in the list. |
 | caches | Map of caches used by cache.getCache. |

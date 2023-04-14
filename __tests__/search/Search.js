@@ -3,6 +3,7 @@ import search from "../../lib/mocks/search/index.cjs";
 
 let Search;
 beforeEach(() => {
+	SuiteScriptMocks.reset();
 	Search = new search.Search({
 		id: "customsearch_1",
 		searchId: 1,
@@ -12,13 +13,16 @@ beforeEach(() => {
 		filters: [],
 	});
 	SuiteScriptMocks.searches = [Search];
-	Search = new search.Search(Search);
 });
 
 describe("search.Search", () => {
 	describe("run", () => {
 		it("should return a search.ResultSet", () => {
 			expect(Search.run()).toBeInstanceOf(search.ResultSet);
+		});
+		it("should add search to SuiteScriptMocks.runSearches", () => {
+			Search.run();
+			expect(SuiteScriptMocks.runSearches[0].id).toBe(Search.id);
 		});
 	});
 
@@ -35,6 +39,10 @@ describe("search.Search", () => {
 		});
 		it("should return a search.PagedData", () => {
 			expect(Search.runPaged()).toBeInstanceOf(search.PagedData);
+		});
+		it("should add search to SuiteScriptMocks.runSearches", () => {
+			Search.runPaged();
+			expect(SuiteScriptMocks.runSearches[0].id).toBe(Search.id);
 		});
 	});
 

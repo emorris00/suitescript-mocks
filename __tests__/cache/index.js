@@ -23,13 +23,17 @@ describe("cache", () => {
 		});
 		it("should return a new cache if scope is different", () => {
 			const c = cache.getCache("test", cache.Scope.PUBLIC);
-			expect(c).not.toBe(SuiteScriptMocks.caches.test);
+			expect(c).not.toBe(Cache);
 			expect(c).toBeInstanceOf(cache.Cache);
 		});
 		it("should return a new cache if it doesn't exist", () => {
 			const c = cache.getCache("doesntexist");
-			expect(c).not.toBe(SuiteScriptMocks.caches.test);
+			expect(c).not.toBe(Cache);
 			expect(c).toBeInstanceOf(cache.Cache);
+		});
+		it("should add to SuiteScriptMocks.caches", () => {
+			cache.getCache("doesntexist");
+			expect(Array.from(SuiteScriptMocks.caches.values()).length).toBe(2);
 		});
 	});
 });

@@ -14,6 +14,7 @@ class Search {
 	results;
 
 	run = () => {
+		SuiteScriptMocks.runSearches.push(this);
 		return new ResultSet({
 			columns: this.columns,
 			results: this.results,
@@ -22,6 +23,7 @@ class Search {
 
 	@options("pageSize")
 	runPaged = (options) => {
+		SuiteScriptMocks.runSearches.push(this);
 		const pageSize = options.pageSize || 50;
 		if (pageSize < 5 || pageSize > 1000) {
 			throw new Error("page size is outside allowed range");

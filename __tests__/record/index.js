@@ -9,6 +9,11 @@ beforeEach(() => {
 		fields: {
 			test: 1,
 		},
+		sublists: {
+			item: {
+				lines: [{ item: 1 }],
+			},
+		},
 	});
 	SuiteScriptMocks.records = [Record];
 });
@@ -32,6 +37,13 @@ describe("record", () => {
 					type: record.Type.SALES_ORDER,
 				});
 			}).toThrow();
+		});
+		it("should not modify original record when modifying copy", () => {
+			const copy = record.copy({ id: 1, type: record.Type.SALES_ORDER });
+			copy.setValue("test", 2);
+			expect(Record.fields.test).toBe(1);
+			copy.setSublistValue("item", "item", 0, 2);
+			expect(Record.sublists.item.lines[0].item).toBe(1);
 		});
 	});
 
@@ -95,6 +107,13 @@ describe("record", () => {
 			expect(() => {
 				record.load({ id: 99999, type: record.Type.SALES_ORDER });
 			}).toThrow();
+		});
+		it("should not modify original record when modifying loaded record before save", () => {
+			const loadedRecord = record.load({ id: 1, type: record.Type.SALES_ORDER });
+			loadedRecord.setValue("test", 2);
+			expect(Record.fields.test).toBe(1);
+			loadedRecord.setSublistValue("item", "item", 0, 2);
+			expect(Record.sublists.item.lines[0].item).toBe(1);
 		});
 	});
 

@@ -255,7 +255,7 @@ class Record {
 			});
 		});
 		if (!this.id) {
-			this.id = copy.id = Math.max(Array.from(SuiteScriptMocks.records.values).map((a) => a.id)) + 1;
+			this.id = copy.id = Math.max(Array.from(SuiteScriptMocks.records.values()).map((a) => a.id)) + 1;
 			SuiteScriptMocks.createdRecords.push(copy);
 		}
 		SuiteScriptMocks.records.set(copy);

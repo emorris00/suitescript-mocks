@@ -1,31 +1,29 @@
 const SuiteScriptMocks = require("../../index.cjs");
 const taskStub = require("suitecloud-unit-testing-stubs/stubs/task");
 const { options, required } = require("../../helpers.cjs");
+const { TaskTypeStatusMap } = require("./Task.cjs");
 
-const taskTypeMap = new Map();
-taskTypeMap.set(taskStub.TaskType.CSV_IMPORT, require("./CsvImportTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.ENTITY_DEDUPLICATION, require("./EntityDeduplicationTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.MAP_REDUCE, require("./MapReduceScriptTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.QUERY, require("./QueryTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.RECORD_ACTION, require("./RecordActionTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.SCHEDULED_SCRIPT, require("./ScheduledScriptTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.SEARCH, require("./SearchTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.SUITE_QL, require("./SuiteQLTask.cjs"));
-taskTypeMap.set(taskStub.TaskType.WORKFLOW_TRIGGER, require("./WorkflowTriggerTask.cjs"));
+const CsvImportTask = require("./CsvImportTask.cjs");
+const EntityDeduplicationTask = require("./EntityDeduplicationTask.cjs");
+const MapReduceScriptTask = require("./MapReduceScriptTask.cjs");
+const QueryTask = require("./QueryTask.cjs");
+const RecordActionTask = require("./RecordActionTask.cjs");
+const ScheduledScriptTask = require("./ScheduledScriptTask.cjs");
+const SearchTask = require("./SearchTask.cjs");
+const SuiteQLTask = require("./SuiteQLTask.cjs");
+const WorkflowTriggerTask = require("./WorkflowTriggerTask.cjs");
 
-const taskStatusMap = new Map();
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.CSV_IMPORT), require("./CsvImportTaskStatus.cjs"));
-taskStatusMap.set(
-	taskTypeMap.get(taskStub.TaskType.ENTITY_DEDUPLICATION),
-	require("./EntityDeduplicationTaskStatus.cjs")
-);
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.MAP_REDUCE), require("./MapReduceScriptTaskStatus.cjs"));
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.QUERY), require("./QueryTaskStatus.cjs"));
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.RECORD_ACTION), require("./RecordActionTaskStatus.cjs"));
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.SCHEDULED_SCRIPT), require("./ScheduledScriptTaskStatus.cjs"));
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.SEARCH), require("./SearchTaskStatus.cjs"));
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.SUITE_QL), require("./SuiteQLTaskStatus.cjs"));
-taskStatusMap.set(taskTypeMap.get(taskStub.TaskType.WORKFLOW_TRIGGER), require("./WorkflowTriggerTaskStatus.cjs"));
+const TaskTypeMap = {
+	[taskStub.TaskType.CSV_IMPORT]: CsvImportTask,
+	[taskStub.TaskType.ENTITY_DEDUPLICATION]: EntityDeduplicationTask,
+	[taskStub.TaskType.MAP_REDUCE]: MapReduceScriptTask,
+	[taskStub.TaskType.QUERY]: QueryTask,
+	[taskStub.TaskType.RECORD_ACTION]: RecordActionTask,
+	[taskStub.TaskType.SCHEDULED_SCRIPT]: ScheduledScriptTask,
+	[taskStub.TaskType.SEARCH]: SearchTask,
+	[taskStub.TaskType.SUITE_QL]: SuiteQLTask,
+	[taskStub.TaskType.WORKFLOW_TRIGGER]: WorkflowTriggerTask,
+};
 
 class TaskModule {
 	ActionCondition = taskStub.ActionCondition;
@@ -36,21 +34,42 @@ class TaskModule {
 	TaskStatus = taskStub.TaskStatus;
 	TaskType = taskStub.TaskType;
 
+	TaskTypeMap = TaskTypeMap;
+	TaskTypeStatusMap = TaskTypeStatusMap;
+
+	CsvImportTask = TaskTypeMap[taskStub.TaskType.CSV_IMPORT];
+	EntityDeduplicationTask = TaskTypeMap[taskStub.TaskType.ENTITY_DEDUPLICATION];
+	MapReduceScriptTask = TaskTypeMap[taskStub.TaskType.MAP_REDUCE];
+	QueryTask = TaskTypeMap[taskStub.TaskType.QUERY];
+	RecordActionTask = TaskTypeMap[taskStub.TaskType.RECORD_ACTION];
+	ScheduledScriptTask = TaskTypeMap[taskStub.TaskType.SCHEDULED_SCRIPT];
+	SearchTask = TaskTypeMap[taskStub.TaskType.SEARCH];
+	SuiteQLTask = TaskTypeMap[taskStub.TaskType.SUITE_QL];
+	WorkflowTriggerTask = TaskTypeMap[taskStub.TaskType.WORKFLOW_TRIGGER];
+
+	CsvImportTaskStatus = TaskTypeStatusMap[taskStub.TaskType.CSV_IMPORT];
+	EntityDeduplicationTaskStatus = TaskTypeStatusMap[taskStub.TaskType.ENTITY_DEDUPLICATION];
+	MapReduceScriptTaskStatus = TaskTypeStatusMap[taskStub.TaskType.MAP_REDUCE];
+	QueryTaskStatus = TaskTypeStatusMap[taskStub.TaskType.QUERY];
+	RecordActionTaskStatus = TaskTypeStatusMap[taskStub.TaskType.RECORD_ACTION];
+	ScheduledScriptTaskStatus = TaskTypeStatusMap[taskStub.TaskType.SCHEDULED_SCRIPT];
+	SearchTaskStatus = TaskTypeStatusMap[taskStub.TaskType.SEARCH];
+	SuiteQLTaskStatus = TaskTypeStatusMap[taskStub.TaskType.SUITE_QL];
+	WorkflowTriggerTaskStatus = TaskTypeStatusMap[taskStub.TaskType.WORKFLOW_TRIGGER];
+
 	@options("taskId")
 	@required("taskId")
 	checkStatus = (options) => {
-		if (options.taskId in SuiteScriptMocks.tasks) {
-			const task = SuiteScriptMocks.tasks[options.taskId];
-			return new (taskStatusMap.get(task.constructor))(task);
+		if (SuiteScriptMocks.taskStatuses.has(options)) {
+			return SuiteScriptMocks.taskStatuses.get(options);
 		}
 		throw new Error("Task doesn't exist");
 	};
 
 	@required("taskType")
 	create = (options) => {
-		if (taskTypeMap.has(options.taskType)) {
-			const task = new (taskTypeMap.get(options.taskType))(options);
-			SuiteScriptMocks.tasks.push(task);
+		if (options.taskType in this.TaskTypeMap) {
+			const task = new this.TaskTypeMap[options.taskType](options);
 			return task;
 		}
 		throw new Error("Invalid task type");

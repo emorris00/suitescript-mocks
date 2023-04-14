@@ -1,7 +1,8 @@
 const { assignConstructor, options, required } = require("../../helpers.cjs");
+const { Task } = require("./Task.cjs");
 
 @assignConstructor()
-class SearchTask {
+class SearchTask extends Task {
 	fileId;
 	filePath;
 	id;
@@ -13,8 +14,6 @@ class SearchTask {
 	addInboundDependency = (options) => {
 		this.inboundDependencies.push(options);
 	};
-
-	submit = () => {};
 }
 
 module.exports = SearchTask;

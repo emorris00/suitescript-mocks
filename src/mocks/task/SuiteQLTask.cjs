@@ -1,7 +1,8 @@
 const { assignConstructor, options, required } = require("../../helpers.cjs");
+const { Task } = require("./Task.cjs");
 
 @assignConstructor()
-class SuiteQLTask {
+class SuiteQLTask extends Task {
 	fileId;
 	filePath;
 	inboundDependencies = [];
@@ -13,8 +14,6 @@ class SuiteQLTask {
 	addInboundDependency = (options) => {
 		this.inboundDependencies.push(options);
 	};
-
-	submit = () => {};
 }
 
 module.exports = SuiteQLTask;

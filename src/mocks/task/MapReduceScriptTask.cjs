@@ -1,13 +1,12 @@
 const { assignConstructor } = require("../../helpers.cjs");
+const { Task } = require("./Task.cjs");
 
 @assignConstructor()
-class MapReduceScriptTask {
+class MapReduceScriptTask extends Task {
 	deploymentId;
 	id;
 	params;
 	scriptId;
-
-	submit = () => {};
 }
 
 module.exports = MapReduceScriptTask;

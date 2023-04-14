@@ -3,49 +3,48 @@ const KeyedSet = require("./keyed-set.cjs");
 const { createUserEventContext, addKeyedSetGetSet } = require("./helpers.cjs");
 
 class SuiteScriptMocks {
-	outputAuditLogs = false;
-	outputDebugLogs = false;
-	outputEmergencyLogs = false;
-	outputErrorLogs = false;
+	@addKeyedSetGetSet()
+	#caches = new KeyedSet((cache) => [cache.name, cache.scope]);
 
 	@addKeyedSetGetSet()
-	#records = new KeyedSet((value) => [value.id, value.type]);
-	savedRecords = [];
-	createdRecords = [];
+	#records = new KeyedSet((record) => [record.id, record.type]);
 
 	@addKeyedSetGetSet()
 	#searches = new KeyedSet(
-		(value) => value.id,
-		(value) => value.searchId,
-		(value) => value.title
+		(search) => search.id,
+		(search) => search.searchId,
+		(search) => search.title
 	);
-	searchResults = [];
 
 	@addKeyedSetGetSet()
-	#lookupFieldsResults = new KeyedSet((value) => [value.id, value.searchId]);
-
-	@addKeyedSetGetSet()
-	#caches = new KeyedSet((value) => [value.name, value.scope]);
-
-	sentEmails = [];
-
-	tasks = [];
-
-	currentScript;
-	currentUser;
-	currentSession;
-
-	features = {};
+	#taskStatuses = new KeyedSet((task) => task.id);
 
 	reset = () => {
+		this.outputAuditLogs = false;
+		this.outputDebugLogs = false;
+		this.outputEmergencyLogs = false;
+		this.outputErrorLogs = false;
+
+		this.currentScript = {};
+		this.currentUser = {};
+		this.currentSession = {};
+		this.features = {};
+
+		this.sentEmails = [];
+
+		this.#caches.clear();
+
 		this.#records.clear();
 		this.savedRecords = [];
 		this.createdRecords = [];
+
 		this.#searches.clear();
-		this.#lookupFieldsResults.clear();
-		this.tasks = [];
-		this.#caches.clear();
-		this.sentEmails = [];
+		this.runSearches = [];
+		this.searchResults = [];
+		this.lookupFieldsResults = [];
+
+		this.#taskStatuses.clear();
+		this.submittedTasks = [];
 	};
 
 	createUserEventContext = createUserEventContext;
@@ -65,6 +64,10 @@ class SuiteScriptMocks {
 			path: "<rootDir>/node_modules/suitescript-mocks/lib/mocks/ui/serverWidget/index.cjs",
 		},
 	];
+
+	constructor() {
+		this.reset();
+	}
 }
 
 module.exports = new SuiteScriptMocks();
