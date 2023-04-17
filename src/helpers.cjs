@@ -1,5 +1,3 @@
-const { Record } = require("@bloomberg/record-tuple-polyfill");
-
 function fieldInitDecorator(target) {
 	return function (...args) {
 		return function (_, context) {
@@ -152,12 +150,6 @@ function createUserEventContext(type, oldRecord, newRecord) {
 	};
 }
 
-function toRecord(obj) {
-	return Record.fromEntries(
-		Object.entries(obj).filter(([_, value]) => !["object", "function"].includes(typeof value))
-	);
-}
-
 const decorators = new Decorators();
 
 module.exports = {
@@ -170,5 +162,4 @@ module.exports = {
 	assignConstructor: decorators.assignConstructor,
 	UserEventType,
 	createUserEventContext,
-	toRecord: toRecord,
 };
