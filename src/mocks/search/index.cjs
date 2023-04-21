@@ -29,7 +29,7 @@ class SearchModule {
 	@addPromise()
 	@required("type")
 	create = ({ type, columns, filters }) => {
-		columns = columns.map((column) => {
+		columns = (columns || []).map((column) => {
 			if (typeof column === "string" && column.includes(".")) {
 				const [join, name] = column.split(".");
 				return this.createColumn({ name, join });

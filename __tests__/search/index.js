@@ -53,6 +53,14 @@ describe("search", () => {
 			expect(s.columns[0].join).toBe("item");
 			expect(s.columns[0].name).toBe("displayname");
 		});
+		it("should not error when not providing columns", () => {
+			expect(() => {
+				search.create({
+					type: search.Type.SALES_ORDER,
+					filters: [],
+				});
+			}).not.toThrow();
+		});
 	});
 
 	describe("createColumn", () => {
