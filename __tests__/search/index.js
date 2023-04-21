@@ -61,6 +61,19 @@ describe("search", () => {
 				});
 			}).not.toThrow();
 		});
+		it("should not error when attempting to get value on search result that doesn't have values set", () => {
+			expect(() => {
+				SuiteScriptMocks.searchResults = [[{ id: 1 }]];
+				search
+					.create({
+						type: search.Type.SALES_ORDER,
+						columns: ["test"],
+					})
+					.run()
+					.getRange(0, 1)[0]
+					.getValue("test");
+			}).not.toThrow();
+		});
 	});
 
 	describe("createColumn", () => {

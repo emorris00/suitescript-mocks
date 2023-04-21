@@ -45,7 +45,7 @@ class SearchModule {
 					id: row.id || row.values.internalid,
 					recordType: row.recordType || type,
 					columns: columns,
-					values: row.values,
+					values: row.values || [],
 				});
 			}),
 		});
