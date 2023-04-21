@@ -3,6 +3,7 @@ import record from "../../lib/mocks/record/index.cjs";
 
 let Record;
 beforeEach(() => {
+	SuiteScriptMocks.reset();
 	Record = new record.Record({
 		id: 1,
 		type: record.Type.SALES_ORDER,
@@ -89,6 +90,15 @@ describe("record", () => {
 			expect(() => {
 				record.delete({ id: 99999, type: record.Type.SALES_ORDER });
 			}).toThrow();
+		});
+		it("should add deleted record to SuiteScriptMocks.deletedRecords", () => {
+			record.delete({
+				id: 1,
+				type: record.Type.SALES_ORDER,
+			});
+			expect(SuiteScriptMocks.deletedRecords).toHaveLength(1);
+			expect(SuiteScriptMocks.deletedRecords[0].id).toBe(1);
+			expect(SuiteScriptMocks.deletedRecords[0].type).toBe(record.Type.SALES_ORDER);
 		});
 	});
 

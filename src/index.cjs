@@ -37,6 +37,7 @@ class SuiteScriptMocks {
 		this.#records.clear();
 		this.savedRecords = [];
 		this.createdRecords = [];
+		this.deletedRecords = [];
 
 		this.#searches.clear();
 		this.runSearches = [];

@@ -34,10 +34,13 @@ class RecordModule {
 	@addPromise()
 	@options("type", "id")
 	delete = (options) => {
-		if (!SuiteScriptMocks.records.has(options)) {
+		const rec = SuiteScriptMocks.records.get(options);
+		if (!rec) {
 			throw new Error("Record does not exist");
 		}
-		return (SuiteScriptMocks.records.delete(options) && options.id) || false;
+		SuiteScriptMocks.deletedRecords.push(rec);
+		SuiteScriptMocks.records.delete(rec);
+		return rec.id;
 	};
 
 	@addPromise()
