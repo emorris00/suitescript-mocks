@@ -1,6 +1,6 @@
 const SuiteCloudJestStubs = require("suitecloud-unit-testing-stubs");
 const KeyedSet = require("./keyed-set.cjs");
-const { createUserEventContext, addKeyedSetGetSet } = require("./helpers.cjs");
+const { addKeyedSetGetSet, createUserEventContext, UserEventType } = require("./helpers.cjs");
 
 class SuiteScriptMocks {
 	@addKeyedSetGetSet()
@@ -49,6 +49,7 @@ class SuiteScriptMocks {
 	};
 
 	createUserEventContext = createUserEventContext;
+	UserEventType = UserEventType;
 
 	stubs = [
 		...SuiteCloudJestStubs.customStubs,
