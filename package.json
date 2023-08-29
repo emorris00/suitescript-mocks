@@ -2,6 +2,7 @@
   "name": "suitescript-mocks",
   "version": "0.1.0",
   "description": "Set of mocks for unit testing Netsuite Suitescript 2.*",
+  "keywords": ["NetSuite", "SuiteScript", "JS", "JavaScript", "JEST", "Test", "Mocks"],
   "main": "index.js",
   "type": "module",
   "exports": {
@@ -24,6 +25,10 @@
   "scripts": {
     "build": "babel --keep-file-extension src -d lib",
     "test": "npm run build && jest"
+  },
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/emorris00/suitescript-mocks.git"
   },
   "author": {
     "name": "Eric Morris",
