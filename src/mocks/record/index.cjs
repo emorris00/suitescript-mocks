@@ -27,7 +27,7 @@ class RecordModule {
 			id: null,
 			type: options.type,
 			isDynamic: options?.isDynamic,
-			fields: options?.defaultValues,
+			fields: options?.defaultValues || {},
 		});
 	};
 
