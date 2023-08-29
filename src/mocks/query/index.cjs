@@ -13,7 +13,7 @@ const Result = require("./Result.cjs");
 const ResultSet = require("./ResultSet.cjs");
 const Sort = require("./Sort.cjs");
 const SuiteQL = require("./SuiteQL.cjs");
-const { default: SuiteScriptMocks } = require("../../../index.js");
+const SuiteScriptMocks = require("../../../index.cjs");
 
 class QueryModule {
 	Aggregate = queryStub.Aggregate;
