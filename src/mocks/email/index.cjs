@@ -1,4 +1,4 @@
-const { default: SuiteScriptMocks } = require("../../..");
+const SuiteScriptMocks = require("../../../index.cjs");
 const { addPromise, options, required } = require("../../helpers.cjs");
 
 class EmailModule {
