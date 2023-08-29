@@ -1,8 +1,16 @@
 {
   "name": "suitescript-mocks",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Set of mocks for unit testing Netsuite Suitescript 2.*",
-  "keywords": ["NetSuite", "SuiteScript", "JS", "JavaScript", "JEST", "Test", "Mocks"],
+  "keywords": [
+    "NetSuite",
+    "SuiteScript",
+    "JS",
+    "JavaScript",
+    "JEST",
+    "Test",
+    "Mocks"
+  ],
   "main": "index.js",
   "type": "module",
   "exports": {
@@ -27,8 +35,8 @@
     "test": "npm run build && jest"
   },
   "repository": {
-	"type": "git",
-	"url": "https://github.com/emorris00/suitescript-mocks.git"
+    "type": "git",
+    "url": "https://github.com/emorris00/suitescript-mocks.git"
   },
   "author": {
     "name": "Eric Morris",
@@ -50,7 +58,7 @@
       "google",
       "prettier"
     ],
-	"parser": "@babel/eslint-parser",
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
       "ecmaVersion": 2022,
       "sourceType": "module",
@@ -124,7 +132,8 @@
   "dependencies": {
     "@bloomberg/record-tuple-polyfill": "^0.0.4",
     "@oracle/suitecloud-unit-testing": "^1.2.1",
-    "core-js-pure": "^3.26.1",
+    "core-js-pure": "^3.32.1",
+    "date-fns": "^2.30.0",
     "suitecloud-unit-testing-stubs": "^1.0.4"
   }
 }

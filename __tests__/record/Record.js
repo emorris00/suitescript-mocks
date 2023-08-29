@@ -11,12 +11,14 @@ beforeEach(() => {
 		fields: {
 			test: 1,
 			test2: { value: 2, text: "test2" },
+			testdate: new Date("2023-01-01"),
 		},
 		sublists: {
 			test: [
 				{
 					test: 1,
 					test2: { value: 2, text: "test2" },
+					testdate: new Date("2023-01-01"),
 				},
 			],
 		},
@@ -24,7 +26,6 @@ beforeEach(() => {
 			test: new record.Record({
 				fields: {
 					test: 1,
-					test2: { value: 2, text: "test2" },
 				},
 			}),
 		},
@@ -83,6 +84,33 @@ describe("search.Record", () => {
 		});
 	});
 
+	describe("getCurrentSublistText", () => {
+		beforeEach(() => {
+			Record.selectLine("test", 0);
+		});
+		it("should return text if it exists", () => {
+			expect(Record.getCurrentSublistText("test", "test2")).toBe("test2");
+		});
+		it("should return formatted date string if field is a date", () => {
+			expect(Record.getCurrentSublistText("test", "testdate")).toBe("1/1/2023");
+		});
+		it("should return value if field is an object and text doesn't exist and in dynamic mode", () => {
+			delete Record.sublists.test.lines[0].test2.text;
+			expect(Record.getCurrentSublistText("test", "test2")).toBe(2);
+		});
+		it("should return value if field is not an object", () => {
+			expect(Record.getCurrentSublistText("test", "test")).toBe(1);
+		});
+		it("should return undefined if field doesn't exist", () => {
+			expect(Record.getCurrentSublistText("test", "doesntexist")).toBe(undefined);
+		});
+		it("should throw error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.getCurrentSublistText("doesntexist", "test");
+			}).toThrow();
+		});
+	});
+
 	describe("getCurrentSublistValue", () => {
 		beforeEach(() => {
 			Record.selectLine("test", 0);
@@ -113,6 +141,9 @@ describe("search.Record", () => {
 	describe("getSublistText", () => {
 		it("should return text if it exists", () => {
 			expect(Record.getSublistText("test", "test2", 0)).toBe("test2");
+		});
+		it("should return formatted date string if field is a date", () => {
+			expect(Record.getSublistText("test", "testdate", 0)).toBe("1/1/2023");
 		});
 		it("should return value if field is an object and text doesn't exist and in dynamic mode", () => {
 			delete Record.sublists.test.lines[0].test2.text;
@@ -181,6 +212,9 @@ describe("search.Record", () => {
 		it("should return text if it exists", () => {
 			expect(Record.getText("test2")).toBe("test2");
 		});
+		it("should return formatted date string if field is a date", () => {
+			expect(Record.getText("testdate")).toBe("1/1/2023");
+		});
 		it("should return value if field is an object and text doesn't exist and in dynamic mode", () => {
 			delete Record.fields.test2.text;
 			expect(Record.getText("test2")).toBe(2);
@@ -209,6 +243,9 @@ describe("search.Record", () => {
 		});
 		it("should return undefined if it doesn't", () => {
 			expect(Record.getValue("doesntexist")).toBe(undefined);
+		});
+		it("should return Date object if its a date", () => {
+			expect(Record.getValue("testdate")).toBeInstanceOf(Date);
 		});
 	});
 

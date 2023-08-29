@@ -3,6 +3,8 @@ const KeyedSet = require("./keyed-set.cjs");
 const { addKeyedSetGetSet, createUserEventContext, UserEventType } = require("./helpers.cjs");
 
 class SuiteScriptMocks {
+	dateFormat = "M/d/yyyy";
+
 	@addKeyedSetGetSet()
 	#caches = new KeyedSet((cache) => [cache.name, cache.scope]);
 

@@ -1,3 +1,4 @@
+const datefns = require("date-fns");
 const structuredClone = require("core-js-pure/actual/structured-clone");
 const { randomUUID } = require("node:crypto");
 const SuiteScriptMocks = require("../../index.cjs");
@@ -80,12 +81,15 @@ class Record {
 	getCurrentSublistText = (options) => {
 		const sublist = this.sublists[options.sublistId];
 		if (sublist === undefined) {
-			return null;
+			throw new Error("Sublist does not exist");
 		}
 		if (!("currentline" in sublist)) {
 			this.selectNewLine(sublist);
 		}
 		const field = sublist.currentline[options.fieldId];
+		if (field instanceof Date) {
+			return datefns.format(field, SuiteScriptMocks.dateFormat);
+		}
 		if (typeof field === "object" && field !== null) {
 			return field.text || field.value;
 		}
@@ -104,7 +108,7 @@ class Record {
 			this.selectNewLine(sublist);
 		}
 		const field = sublist.currentline[options.fieldId];
-		if (typeof field === "object" && field !== null) {
+		if (typeof field === "object" && field !== null && !(field instanceof Date)) {
 			return field.value;
 		}
 		return field;
@@ -152,6 +156,9 @@ class Record {
 	@required("sublistId", "fieldId", "line")
 	getSublistText = (options) => {
 		const field = this.sublists[options.sublistId].lines[options.line][options.fieldId];
+		if (field instanceof Date) {
+			return datefns.format(field, SuiteScriptMocks.dateFormat);
+		}
 		if (typeof field === "object" && field !== null) {
 			if (!this.isDynamic && !("text" in field)) {
 				throw new Error(
@@ -167,7 +174,7 @@ class Record {
 	@required("sublistId", "fieldId", "line")
 	getSublistValue = (options) => {
 		const field = this.sublists[options.sublistId].lines[options.line][options.fieldId];
-		if (typeof field === "object" && field !== null) {
+		if (typeof field === "object" && field !== null && !(field instanceof Date)) {
 			return field.value;
 		}
 		return field;
@@ -186,6 +193,9 @@ class Record {
 	@required("fieldId")
 	getText = (options) => {
 		const field = this.fields[options.fieldId];
+		if (field instanceof Date) {
+			return datefns.format(field, SuiteScriptMocks.dateFormat);
+		}
 		if (typeof field === "object" && field !== null) {
 			if (!this.isDynamic && !("text" in field)) {
 				throw new Error("Cannot use getText on field that has had value but not text set in standard mode");
@@ -199,7 +209,7 @@ class Record {
 	@required("fieldId")
 	getValue = (options) => {
 		const field = this.fields[options.fieldId];
-		if (typeof field === "object" && field !== null) {
+		if (typeof field === "object" && field !== null && !(field instanceof Date)) {
 			return field.value;
 		}
 		return field;
@@ -241,14 +251,14 @@ class Record {
 		const copy = new Record(this);
 		// change fields that only have value to not be an object so getText works
 		Object.entries(copy.fields).forEach(([key, value]) => {
-			if (typeof value === "object" && value !== null && !("text" in value)) {
+			if (typeof value === "object" && value !== null && !(value instanceof Date) && !("text" in value)) {
 				copy.fields[key] = value.value;
 			}
 		});
 		Object.values(copy.sublists).forEach((sublist) => {
 			sublist.lines.forEach((line) => {
 				Object.entries(line).forEach(([key, value]) => {
-					if (typeof value === "object" && value !== null && !("text" in value)) {
+					if (typeof value === "object" && value !== null && !(value instanceof Date) && !("text" in value)) {
 						line[key] = value.value;
 					}
 				});
