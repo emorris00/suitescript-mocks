@@ -33,7 +33,7 @@ beforeEach(() => {
 	SuiteScriptMocks.records = [Record];
 });
 
-describe("search.Record", () => {
+describe("record.Record", () => {
 	describe("cancelLine", () => {
 		beforeEach(() => {
 			Record.selectLine("test", 0);
@@ -245,7 +245,7 @@ describe("search.Record", () => {
 			expect(Record.getValue("doesntexist")).toBe(undefined);
 		});
 		it("should return Date object if its a date", () => {
-			expect(Record.getValue("testdate")).toBeInstanceOf(Date);
+			expect(Object.prototype.toString.call(Record.getValue("testdate"))).toBe("[object Date]");
 		});
 	});
 

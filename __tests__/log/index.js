@@ -8,8 +8,17 @@ beforeEach(() => {
 	SuiteScriptMocks.reset();
 	jest.clearAllMocks();
 });
-describe("index.js", () => {
+describe("log", () => {
 	describe("audit", () => {
+		it("should append log to SuiteScriptMocks.logs", () => {
+			log.audit("title", "details");
+			expect(SuiteScriptMocks.logs).toHaveLength(1);
+			expect(SuiteScriptMocks.logs[0]).toEqual({
+				title: "title",
+				details: "details",
+				type: "audit",
+			});
+		});
 		it("should output console when SuiteScriptMocks.outputAuditLogs is true", () => {
 			SuiteScriptMocks.outputAuditLogs = true;
 			log.audit("test");
@@ -23,6 +32,15 @@ describe("index.js", () => {
 	});
 
 	describe("debug", () => {
+		it("should append log to SuiteScriptMocks.logs", () => {
+			log.debug("title", "details");
+			expect(SuiteScriptMocks.logs).toHaveLength(1);
+			expect(SuiteScriptMocks.logs[0]).toEqual({
+				title: "title",
+				details: "details",
+				type: "debug",
+			});
+		});
 		it("should output console when SuiteScriptMocks.outputDebugLogs is true", () => {
 			SuiteScriptMocks.outputDebugLogs = true;
 			log.debug("test");
@@ -36,6 +54,15 @@ describe("index.js", () => {
 	});
 
 	describe("emergency", () => {
+		it("should append log to SuiteScriptMocks.logs", () => {
+			log.emergency("title", "details");
+			expect(SuiteScriptMocks.logs).toHaveLength(1);
+			expect(SuiteScriptMocks.logs[0]).toEqual({
+				title: "title",
+				details: "details",
+				type: "emergency",
+			});
+		});
 		it("should output console when SuiteScriptMocks.outputEmergencyLogs is true", () => {
 			SuiteScriptMocks.outputEmergencyLogs = true;
 			log.emergency("test");
@@ -49,6 +76,15 @@ describe("index.js", () => {
 	});
 
 	describe("error", () => {
+		it("should append log to SuiteScriptMocks.logs", () => {
+			log.error("title", "details");
+			expect(SuiteScriptMocks.logs).toHaveLength(1);
+			expect(SuiteScriptMocks.logs[0]).toEqual({
+				title: "title",
+				details: "details",
+				type: "error",
+			});
+		});
 		it("should output console when SuiteScriptMocks.outputErrorLogs is true", () => {
 			SuiteScriptMocks.outputErrorLogs = true;
 			log.error("test");

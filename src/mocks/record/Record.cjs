@@ -87,7 +87,7 @@ class Record {
 			this.selectNewLine(sublist);
 		}
 		const field = sublist.currentline[options.fieldId];
-		if (field instanceof Date) {
+		if (Object.prototype.toString.call(field) === "[object Date]") {
 			return datefns.format(field, SuiteScriptMocks.dateFormat);
 		}
 		if (typeof field === "object" && field !== null) {
@@ -108,7 +108,11 @@ class Record {
 			this.selectNewLine(sublist);
 		}
 		const field = sublist.currentline[options.fieldId];
-		if (typeof field === "object" && field !== null && !(field instanceof Date)) {
+		if (
+			typeof field === "object" &&
+			field !== null &&
+			!(Object.prototype.toString.call(field) === "[object Date]")
+		) {
 			return field.value;
 		}
 		return field;
@@ -156,13 +160,13 @@ class Record {
 	@required("sublistId", "fieldId", "line")
 	getSublistText = (options) => {
 		const field = this.sublists[options.sublistId].lines[options.line][options.fieldId];
-		if (field instanceof Date) {
+		if (Object.prototype.toString.call(field) === "[object Date]") {
 			return datefns.format(field, SuiteScriptMocks.dateFormat);
 		}
 		if (typeof field === "object" && field !== null) {
 			if (!this.isDynamic && !("text" in field)) {
 				throw new Error(
-					"Cannot use getSublistText on field that has had value but not text set in standard mode"
+					"Cannot use getSublistText on field that has had value but not text set in standard mode",
 				);
 			}
 			return field.text || field.value;
@@ -174,7 +178,11 @@ class Record {
 	@required("sublistId", "fieldId", "line")
 	getSublistValue = (options) => {
 		const field = this.sublists[options.sublistId].lines[options.line][options.fieldId];
-		if (typeof field === "object" && field !== null && !(field instanceof Date)) {
+		if (
+			typeof field === "object" &&
+			field !== null &&
+			!(Object.prototype.toString.call(field) === "[object Date]")
+		) {
 			return field.value;
 		}
 		return field;
@@ -193,7 +201,7 @@ class Record {
 	@required("fieldId")
 	getText = (options) => {
 		const field = this.fields[options.fieldId];
-		if (field instanceof Date) {
+		if (Object.prototype.toString.call(field) === "[object Date]") {
 			return datefns.format(field, SuiteScriptMocks.dateFormat);
 		}
 		if (typeof field === "object" && field !== null) {
@@ -209,7 +217,7 @@ class Record {
 	@required("fieldId")
 	getValue = (options) => {
 		const field = this.fields[options.fieldId];
-		if (typeof field === "object" && field !== null && !(field instanceof Date)) {
+		if (typeof field === "object" && field !== null && Object.prototype.toString.call(field) !== "[object Date]") {
 			return field.value;
 		}
 		return field;

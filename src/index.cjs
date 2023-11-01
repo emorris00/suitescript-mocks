@@ -15,7 +15,7 @@ class SuiteScriptMocks {
 	#searches = new KeyedSet(
 		(search) => search.id,
 		(search) => search.searchId,
-		(search) => search.title
+		(search) => search.title,
 	);
 
 	@addKeyedSetGetSet()
@@ -48,6 +48,8 @@ class SuiteScriptMocks {
 
 		this.#taskStatuses.clear();
 		this.submittedTasks = [];
+
+		this.logs = [];
 	};
 
 	createUserEventContext = createUserEventContext;

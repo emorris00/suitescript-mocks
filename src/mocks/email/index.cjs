@@ -12,7 +12,7 @@ class EmailModule {
 		"cc",
 		"isInternalOnly",
 		"relatedRecords",
-		"replyTo"
+		"replyTo",
 	)
 	@required("author", "body", "recipients", "subject")
 	@addPromise()
@@ -30,7 +30,7 @@ class EmailModule {
 		"cc",
 		"isInternalOnly",
 		"relatedRecords",
-		"replyTo"
+		"replyTo",
 	)
 	@required("author", "body", "recipients", "subject")
 	@addPromise()

@@ -40,7 +40,7 @@ class Task {
 			new TaskTypeStatusMap[this.taskType]({
 				taskId: this.id,
 				status: taskStub.TaskStatus.PENDING,
-			})
+			}),
 		);
 		return this.id;
 	};

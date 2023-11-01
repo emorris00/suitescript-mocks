@@ -8,4 +8,5 @@ export default SuiteCloudJestConfiguration.build({
 	projectFolder: cliConfig.defaultProjectFolder,
 	projectType: SuiteCloudJestConfiguration.ProjectType.ACP,
 	customStubs: SuiteScriptMocks.stubs,
+	transformIgnorePatterns: [["<rootDir>/node_modules/(?!(.*\\.mjs)|date-fns)"]],
 });

@@ -4,33 +4,37 @@ const SuiteScriptMocks = require("../../index.cjs");
 class LogModule {
 	@options("title", "details")
 	@required("title")
-	audit = (...args) => {
+	audit = (options) => {
+		SuiteScriptMocks.logs.push({ ...options, type: "audit" });
 		if (SuiteScriptMocks.outputAuditLogs) {
-			console.info(args);
+			console.info(options);
 		}
 	};
 
 	@options("title", "details")
 	@required("title")
-	debug = (...args) => {
+	debug = (options) => {
+		SuiteScriptMocks.logs.push({ ...options, type: "debug" });
 		if (SuiteScriptMocks.outputDebugLogs) {
-			console.log(args);
+			console.log(options);
 		}
 	};
 
 	@options("title", "details")
 	@required("title")
-	emergency = (...args) => {
+	emergency = (options) => {
+		SuiteScriptMocks.logs.push({ ...options, type: "emergency" });
 		if (SuiteScriptMocks.outputEmergencyLogs) {
-			console.error(args);
+			console.error(options);
 		}
 	};
 
 	@options("title", "details")
 	@required("title")
-	error = (...args) => {
+	error = (options) => {
+		SuiteScriptMocks.logs.push({ ...options, type: "error" });
 		if (SuiteScriptMocks.outputErrorLogs) {
-			console.error(args);
+			console.error(options);
 		}
 	};
 }

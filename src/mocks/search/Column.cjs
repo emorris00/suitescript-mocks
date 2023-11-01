@@ -23,7 +23,7 @@ class Column {
 		const format = (value) => String(value ? value : "").toLowerCase();
 
 		return ["name", "join", "summary", "formula", "function"].every(
-			(key) => format(this[key]) == format(column2[key])
+			(key) => format(this[key]) == format(column2[key]),
 		);
 	};
 }
