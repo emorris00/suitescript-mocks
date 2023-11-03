@@ -50,11 +50,11 @@ class RecordModule {
 	@addPromise()
 	@options("type", "id", "isDynamic", "defaultValues")
 	load = (options) => {
-		let record = SuiteScriptMocks.records.get(options);
+		const record = SuiteScriptMocks.records.get(options);
 		if (!record) {
 			throw new Error("Record does not exist");
 		}
-		record = new Record({
+		return new Record({
 			...record,
 			isDynamic: Boolean(options.isDynamic) || false,
 			fields: {
@@ -62,7 +62,6 @@ class RecordModule {
 				...(options.defaultValues || {}),
 			},
 		});
-		return record;
 	};
 
 	@addPromise()

@@ -47,7 +47,7 @@ class Search {
 			}
 		}
 		if (!this.searchId) {
-			this.searchId = Math.max(Array.from(SuiteScriptMocks.searches.values()).map((a) => a.searchId)) + 1;
+			this.searchId = Math.max(...Array.from(SuiteScriptMocks.searches.values()).map((a) => a.searchId)) + 1;
 		}
 		if (!this.id) {
 			this.id = `customsearch_${this.searchId}`;

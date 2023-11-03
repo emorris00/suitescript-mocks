@@ -273,11 +273,16 @@ describe("record.Record", () => {
 			Record.save();
 			expect(Record.id).not.toBe(null);
 		});
-		it("should add incremented id", () => {
+		it("should increment id", () => {
 			const newRecord = new record.Record(Record);
 			newRecord.id = null;
 			newRecord.save();
 			expect(newRecord.id).toBe(2);
+
+			const newRecord2 = new record.Record(Record);
+			newRecord2.id = null;
+			newRecord2.save();
+			expect(newRecord2.id).toBe(3);
 		});
 		it("should return created id", () => {
 			Record.id = null;

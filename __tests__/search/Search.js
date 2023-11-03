@@ -74,6 +74,21 @@ describe("search.Search", () => {
 			Search.save();
 			expect(Search.id).not.toBe(null);
 		});
+		it("should increment searchId", () => {
+			const newSearch = new search.Search(Search);
+			newSearch.id = null;
+			newSearch.searchId = null;
+			newSearch.title = "New Search";
+			newSearch.save();
+			expect(newSearch.searchId).toBe(2);
+
+			const newSearch2 = new search.Search(Search);
+			newSearch2.id = null;
+			newSearch2.searchId = null;
+			newSearch2.title = "New Search 2";
+			newSearch2.save();
+			expect(newSearch2.searchId).toBe(3);
+		});
 		it("should add searchId to search", () => {
 			Search.id = "customsearch_2";
 			Search.searchId = null;

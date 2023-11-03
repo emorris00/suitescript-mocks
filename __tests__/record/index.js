@@ -24,12 +24,12 @@ describe("record", () => {
 
 	describe("copy", () => {
 		it("should return copy of record with no id if it exists", () => {
-			const rec = record.copy({
+			const copy = record.copy({
 				id: 1,
 				type: record.Type.SALES_ORDER,
 			});
-			expect(rec.id).toBe(null);
-			expect(rec).not.toBe(Record);
+			expect(copy.id).toBe(null);
+			expect(copy).not.toBe(Record);
 		});
 		it("should throw error if record does not exist", () => {
 			expect(() => {
@@ -83,7 +83,7 @@ describe("record", () => {
 				record.delete({
 					id: 1,
 					type: record.Type.SALES_ORDER,
-				})
+				}),
 			).toBe(1);
 		});
 		it("should throw error if record doesn't exist", () => {

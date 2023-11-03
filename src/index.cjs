@@ -9,6 +9,12 @@ class SuiteScriptMocks {
 	#caches = new KeyedSet((cache) => [cache.name, cache.scope]);
 
 	@addKeyedSetGetSet()
+	#files = new KeyedSet(
+		(file) => file.id,
+		(file) => [file.folder, file.name],
+	);
+
+	@addKeyedSetGetSet()
 	#records = new KeyedSet((record) => [record.id, record.type]);
 
 	@addKeyedSetGetSet()
@@ -35,6 +41,11 @@ class SuiteScriptMocks {
 		this.sentEmails = [];
 
 		this.#caches.clear();
+
+		this.#files.clear();
+		this.savedFiles = [];
+		this.createdFiles = [];
+		this.deletedFiles = [];
 
 		this.#records.clear();
 		this.savedRecords = [];
