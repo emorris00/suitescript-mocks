@@ -68,6 +68,9 @@ class RecordModule {
 	@options("type", "id", "values", "options")
 	submitFields = (options) => {
 		const record = SuiteScriptMocks.records.get(options);
+		if (!record) {
+			throw new Error("Record does not exist");
+		}
 		record.fields = {
 			...record.fields,
 			...options.values,
