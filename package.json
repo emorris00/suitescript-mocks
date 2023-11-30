@@ -1,6 +1,6 @@
 {
 	"name": "suitescript-mocks",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Set of mocks for unit testing Netsuite Suitescript 2.*",
 	"keywords": [
 		"NetSuite",
@@ -28,6 +28,8 @@
 		"./runtime": "./lib/mocks/runtime/index.cjs",
 		"./search": "./lib/mocks/search/index.cjs",
 		"./task": "./lib/mocks/task/index.cjs",
+		"./ui/dialog": "./lib/mocks/ui/dialog/index.cjs",
+		"./ui/message": "./lib/mocks/ui/message/index.cjs",
 		"./ui/serverWidget": "./lib/mocks/ui/serverWidget/index.cjs",
 		"./url": "./lib/mocks/url/index.cjs"
 	},

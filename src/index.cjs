@@ -63,6 +63,11 @@ class SuiteScriptMocks {
 		this.submittedTasks = [];
 
 		this.logs = [];
+
+		this.dialogs = [];
+		this.dialogResults = [];
+
+		this.messages = [];
 	};
 
 	createUserEventContext = createUserEventContext;
@@ -80,6 +85,8 @@ class SuiteScriptMocks {
 		{ module: "N/runtime", path: `${baseMockPath}/runtime/index.cjs` },
 		{ module: "N/search", path: `${baseMockPath}/search/index.cjs` },
 		{ module: "N/task", path: `${baseMockPath}/task/index.cjs` },
+		{ module: "N/ui/dialog", path: `${baseMockPath}/ui/dialog/index.cjs` },
+		{ module: "N/ui/message", path: `${baseMockPath}/ui/message/index.cjs` },
 		{ module: "N/ui/serverWidget", path: `${baseMockPath}/ui/serverWidget/index.cjs` },
 		{ module: "N/url", path: `${baseMockPath}/url/index.cjs` },
 	];
