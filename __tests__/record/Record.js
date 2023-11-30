@@ -19,11 +19,23 @@ beforeEach(() => {
 					test: 1,
 					test2: { value: 2, text: "test2" },
 					testdate: new Date("2023-01-01"),
+					testsubrecord: new record.Record({
+						id: 2,
+						fields: {
+							test: 1,
+						},
+					}),
+				},
+				{
+					test: 2,
+					test2: { value: 3, text: "test2" },
+					testdate: new Date("2023-01-02"),
 				},
 			],
 		},
 		subrecords: {
 			test: new record.Record({
+				id: 3,
 				fields: {
 					test: 1,
 				},
@@ -53,9 +65,12 @@ describe("record.Record", () => {
 			Record.cancelLine("test");
 			expect(Record.sublists.test.currentline.test).toBe(undefined);
 		});
+		it("should return record", () => {
+			expect(Record.cancelLine("test")).toBe(Record);
+		});
 	});
 
-	describe("commitline", () => {
+	describe("commitLine", () => {
 		beforeEach(() => {
 			Record.selectLine("test", 0);
 			Record.setCurrentSublistValue("test", "test", 2);
@@ -74,13 +89,79 @@ describe("record.Record", () => {
 			Record.selectNewLine("test");
 			Record.setCurrentSublistValue("test", "test", 2);
 			Record.commitLine("test");
-			expect(Record.sublists.test.lines.length).toBe(2);
+			expect(Record.sublists.test.lines.length).toBe(3);
 			expect(Record.sublists.test.lines[0].test).toEqual(1);
-			expect(Record.sublists.test.lines[1].test).toEqual({ value: 2 });
+			expect(Record.sublists.test.lines[2].test).toEqual({ value: 2 });
 		});
 		it("should select a new line", () => {
 			Record.commitLine("test");
 			expect(Record.sublists.test.currentline.test).toBe(undefined);
+		});
+		it("should return record", () => {
+			expect(Record.commitLine("test")).toBe(Record);
+		});
+	});
+
+	describe("findSublistLineWithValue", () => {
+		it("should return -1 if sublist doesn't exist", () => {
+			expect(Record.findSublistLineWithValue("doesntexist", "test", 1)).toBe(-1);
+		});
+		it("should return -1 if sublist doesn't contain value", () => {
+			expect(Record.findSublistLineWithValue("test", "test", "doesntexist")).toBe(-1);
+		});
+		it("should return index of first line with value", () => {
+			expect(Record.findSublistLineWithValue("test", "test", 1)).toBe(0);
+		});
+	});
+
+	describe("getCurrentSublistField", () => {
+		beforeEach(() => {
+			Record.selectLine("test", 0);
+		});
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.getCurrentSublistField("doesntexist", "test");
+			}).toThrow();
+		});
+		it("should return Field if field exists", () => {
+			expect(Record.getCurrentSublistField("test", "test")).toBeInstanceOf(record.Field);
+		});
+		it("should return null if field doesn't exist", () => {
+			expect(Record.getCurrentSublistField("test", "doesntexist")).toBe(null);
+		});
+	});
+
+	describe("getCurrentSublistIndex", () => {
+		it("should return -1 if sublist doesn't exist", () => {
+			expect(Record.getCurrentSublistIndex("banana")).toBe(-1);
+		});
+		it("should return index of current selected line", () => {
+			Record.selectLine("test", 0);
+			expect(Record.getCurrentSublistIndex("test")).toBe(0);
+		});
+		it("should return length of lines if its a new line", () => {
+			expect(Record.getCurrentSublistIndex("test")).toBe(2);
+		});
+	});
+
+	describe("getCurrentSublistSubrecord", () => {
+		beforeEach(() => {
+			Record.selectLine("test", 0);
+		});
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.getCurrentSublistSubrecord("doesntexist", "testsubrecord");
+			}).toThrow();
+		});
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.getCurrentSublistSubrecord("test", "test");
+			}).toThrow();
+		});
+		it("should return subrecord", () => {
+			expect(Record.getCurrentSublistSubrecord("test", "testsubrecord")).toBe(
+				Record.sublists.test.lines[0].testsubrecord,
+			);
 		});
 	});
 
@@ -129,12 +210,80 @@ describe("record.Record", () => {
 		});
 	});
 
+	describe("getField", () => {
+		it("should return Field if field exists", () => {
+			expect(Record.getField("test")).toBeInstanceOf(record.Field);
+		});
+		it("should return null if field doesn't exist", () => {
+			expect(Record.getField("doesntexist")).toBe(null);
+		});
+	});
+
+	describe("getFields", () => {
+		it("should return list of field ids", () => {
+			expect(Record.getFields()).toEqual(["test", "test2", "testdate"]);
+		});
+	});
+
 	describe("getLineCount", () => {
 		it("should return length of sublist if it exists", () => {
-			expect(Record.getLineCount("test")).toBe(1);
+			expect(Record.getLineCount("test")).toBe(2);
 		});
 		it("should return -1 if sublist doesn't exist", () => {
 			expect(Record.getLineCount("doesntexist")).toBe(-1);
+		});
+	});
+
+	describe("getSublist", () => {
+		it("should return null if sublist doesn't exist", () => {
+			expect(Record.getSublist("doesntexist")).toBe(null);
+		});
+		it("should return Sublist if sublist exists", () => {
+			expect(Record.getSublist("test")).toBeInstanceOf(record.Sublist);
+		});
+	});
+
+	describe("getSublists", () => {
+		it("should return list of sublist ids", () => {
+			expect(Record.getSublists()).toEqual(["test"]);
+		});
+	});
+
+	describe("getSublistField", () => {
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.getSublistField("doesntexist", "test", 0);
+			}).toThrow();
+		});
+		it("should return Field if field exists", () => {
+			expect(Record.getSublistField("test", "test", 0)).toBeInstanceOf(record.Field);
+		});
+		it("should return null if field doesn't exist", () => {
+			expect(Record.getSublistField("test", "doesntexist", 0)).toBe(null);
+		});
+	});
+
+	describe("getSublistFields", () => {
+		it("should return list of field ids", () => {
+			expect(Record.getSublistFields("test")).toEqual(["test", "test2", "testdate", "testsubrecord"]);
+		});
+	});
+
+	describe("getSublistSubrecord", () => {
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.getSublistSubrecord("doesntexist", "testsubrecord", 0);
+			}).toThrow();
+		});
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.getSublistSubrecord("test", "test", 0);
+			}).toThrow();
+		});
+		it("should return subrecord", () => {
+			expect(Record.getSublistSubrecord("test", "testsubrecord", 0)).toBe(
+				Record.sublists.test.lines[0].testsubrecord,
+			);
 		});
 	});
 
@@ -249,10 +398,104 @@ describe("record.Record", () => {
 		});
 	});
 
+	describe("hasCurrentSublistSubrecord", () => {
+		beforeEach(() => {
+			Record.selectLine("test", 0);
+		});
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.hasCurrentSublistSubrecord("doesntexist", "testsubrecord");
+			}).toThrow();
+		});
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.hasCurrentSublistSubrecord("test", "test");
+			}).toThrow();
+		});
+		it("should return true if subrecord exists", () => {
+			expect(Record.hasCurrentSublistSubrecord("test", "testsubrecord")).toBe(true);
+		});
+	});
+
+	describe("hasSublistSubrecord", () => {
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.hasSublistSubrecord("doesntexist", "testsubrecord", 0);
+			}).toThrow();
+		});
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.hasSublistSubrecord("test", "test", 0);
+			}).toThrow();
+		});
+		it("should return true if subrecord exists", () => {
+			expect(Record.hasSublistSubrecord("test", "testsubrecord", 0)).toBe(true);
+		});
+	});
+
+	describe("hasSubrecord", () => {
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.hasSubrecord("doesntexist");
+			}).toThrow();
+		});
+		it("should return true if subrecord exists", () => {
+			expect(Record.hasSubrecord("test")).toBe(true);
+		});
+	});
+
+	describe("insertLine", () => {
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.insertLine("doesntexist", 0);
+			}).toThrow();
+		});
+		it("should error if line is outside valid range", () => {
+			expect(() => {
+				Record.insertLine("doesntexist", 999);
+			}).toThrow();
+		});
+		it("should insert line", () => {
+			Record.insertLine("test", 1);
+			expect(Record.sublists.test.lines).toHaveLength(3);
+			expect(Record.sublists.test.lines[1]._id).toBe(undefined);
+		});
+		it("should select line if in dynamic mode", () => {
+			Record.insertLine("test", 1);
+			expect(Record.sublists.test.currentline).toEqual({});
+		});
+		it("should return record", () => {
+			expect(Record.insertLine("test", 1)).toBe(Record);
+		});
+	});
+
+	describe("removeCurrentSublistSubrecord", () => {
+		beforeEach(() => {
+			Record.selectLine("test", 0);
+		});
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.removeCurrentSublistSubrecord("doesntexist", "testsubrecord");
+			}).toThrow();
+		});
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.removeCurrentSublistSubrecord("test", "test");
+			}).toThrow();
+		});
+		it("should remove subrecord", () => {
+			Record.removeCurrentSublistSubrecord("test", "testsubrecord");
+			expect(Record.sublists.test.currentline.testsubrecord).toBe(null);
+		});
+		it("should return record", () => {
+			expect(Record.removeCurrentSublistSubrecord("test", "testsubrecord")).toBe(Record);
+		});
+	});
+
 	describe("removeLine", () => {
 		it("should remove line if it exists", () => {
 			Record.removeLine("test", 0);
-			expect(Record.sublists.test.lines.length).toBe(0);
+			expect(Record.sublists.test.lines.length).toBe(1);
 		});
 		it("should error if sublist doesn't exist", () => {
 			expect(() => {
@@ -263,6 +506,51 @@ describe("record.Record", () => {
 			expect(() => {
 				Record.removeLine("test", -1);
 			}).toThrow();
+		});
+		it("should select first line if in dynamic mode", () => {
+			Record.removeLine("test", 0);
+			expect(Record.sublists.test.currentLine);
+		});
+		it("should return record", () => {
+			expect(Record.removeLine("test", 0)).toBe(Record);
+		});
+	});
+
+	describe("removeSublistSubrecord", () => {
+		beforeEach(() => {
+			Record.isDynamic = false;
+		});
+		it("should error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.removeSublistSubrecord("doesntexist", "testsubrecord", 0);
+			}).toThrow();
+		});
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.removeSublistSubrecord("test", "test", 0);
+			}).toThrow();
+		});
+		it("should remove subrecord", () => {
+			Record.removeSublistSubrecord("test", "testsubrecord", 0);
+			expect(Record.sublists.test.lines[0].testsubrecord).toBe(null);
+		});
+		it("should return record", () => {
+			expect(Record.removeSublistSubrecord("test", "testsubrecord", 0)).toBe(Record);
+		});
+	});
+
+	describe("removeSubrecord", () => {
+		it("should error if field isn't a subrecord", () => {
+			expect(() => {
+				Record.removeSubrecord("doesntexist");
+			}).toThrow();
+		});
+		it("should remove subrecord", () => {
+			Record.removeSubrecord("test");
+			expect(Record.subrecords.test).toBe(null);
+		});
+		it("should return record", () => {
+			expect(Record.removeSubrecord("test")).toBe(Record);
 		});
 	});
 
@@ -364,6 +652,16 @@ describe("record.Record", () => {
 			Record.selectLine("test", 0);
 			expect(Record.sublists.test.currentline).toEqual(Record.sublists.test.lines[0]);
 		});
+		it("should remove any uncommitted lines created by insertLine", () => {
+			Record.insertLine("test", 1);
+			expect(Record.sublists.test.lines).toHaveLength(3);
+			Record.selectLine("test", 2);
+			expect(Record.sublists.test.lines).toHaveLength(2);
+			expect(Record.getCurrentSublistIndex("test")).toBe(1);
+		});
+		it("should return record", () => {
+			expect(Record.selectLine("test", 0)).toBe(Record);
+		});
 	});
 
 	describe("selectNewLine", () => {
@@ -383,6 +681,33 @@ describe("record.Record", () => {
 			expect(Record.sublists.test.currentline).not.toEqual(Record.sublists.test.lines[0]);
 			expect(Record.sublists.test.currentline).not.toEqual(Record.sublists.test.lines[1]);
 		});
+		it("should return record", () => {
+			expect(Record.selectNewLine("test")).toBe(Record);
+		});
+	});
+
+	describe("setCurrentSublistText", () => {
+		beforeEach(() => {
+			Record.selectLine("test", 0);
+		});
+		it("should throw error if record isn't in dynamic mode", () => {
+			Record.isDynamic = false;
+			expect(() => {
+				Record.setCurrentSublistText("test", "test", "test2");
+			}).toThrow();
+		});
+		it("should throw error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.setCurrentSublistText("doesntexist", "test", "test2");
+			}).toThrow();
+		});
+		it("should set value on current sublist line", () => {
+			Record.setCurrentSublistText("test", "test", "test2");
+			expect(Record.sublists.test.currentline.test).toEqual({ value: "test2", text: "test2" });
+		});
+		it("should return record", () => {
+			expect(Record.setCurrentSublistText("test", "test", "test2")).toBe(Record);
+		});
 	});
 
 	describe("setCurrentSublistValue", () => {
@@ -400,19 +725,36 @@ describe("record.Record", () => {
 				Record.setCurrentSublistValue("doesntexist", "test", 0);
 			}).toThrow();
 		});
-		it("should throw error if fieldId isn't supplied", () => {
-			expect(() => {
-				Record.setCurrentSublistValue("test");
-			}).toThrow();
-		});
-		it("should throw error if value isn't supplied", () => {
-			expect(() => {
-				Record.setCurrentSublistValue("test", "test");
-			}).toThrow();
-		});
 		it("should set value on current sublist line", () => {
 			Record.setCurrentSublistValue("test", "test", 2);
 			expect(Record.sublists.test.currentline.test).toEqual({ value: 2 });
+		});
+		it("should return record", () => {
+			expect(Record.setCurrentSublistValue("test", "test", 2)).toBe(Record);
+		});
+	});
+
+	describe("setSublistText", () => {
+		beforeEach(() => {
+			Record.isDynamic = false;
+		});
+		it("should throw error if record isn't in standard mode", () => {
+			Record.isDynamic = true;
+			expect(() => {
+				Record.setSublistText("test", "test", 0, "test2");
+			}).toThrow();
+		});
+		it("should throw error if sublist doesn't exist", () => {
+			expect(() => {
+				Record.setSublistText("doesntexist", "test", 0, "test2");
+			}).toThrow();
+		});
+		it("should set value on current sublist line", () => {
+			Record.setSublistText("test", "test", 0, "test2");
+			expect(Record.sublists.test.lines[0].test).toEqual({ value: "test2", text: "test2" });
+		});
+		it("should return record", () => {
+			expect(Record.setSublistText("test", "test", 0, "test2")).toBe(Record);
 		});
 	});
 
@@ -436,41 +778,22 @@ describe("record.Record", () => {
 				Record.setSublistValue("test", "test", 999, 0);
 			}).toThrow();
 		});
-		it("should throw error if fieldId isn't supplied", () => {
-			expect(() => {
-				Record.setSublistValue("test");
-			}).toThrow();
-		});
-		it("should throw error if line isn't supplied", () => {
-			expect(() => {
-				Record.setSublistValue("test", "test");
-			}).toThrow();
-		});
-		it("should throw error if value isn't supplied", () => {
-			expect(() => {
-				Record.setSublistValue("test", "test", 0);
-			}).toThrow();
-		});
 		it("should set value on sublist line", () => {
 			Record.setSublistValue("test", "test", 0, 2);
 			expect(Record.sublists.test.lines[0].test).toEqual({ value: 2 });
 		});
+		it("should return record", () => {
+			expect(Record.setSublistValue("test", "test", 0, 2)).toBe(Record);
+		});
 	});
 
 	describe("setText", () => {
-		it("should error if fieldId isn't supplied", () => {
-			expect(() => {
-				Record.setText();
-			}).toThrow();
-		});
-		it("should error if text isn't supplied", () => {
-			expect(() => {
-				Record.setText("test");
-			}).toThrow();
-		});
 		it("should set text", () => {
 			Record.setText("test", "test2");
 			expect(Record.fields.test).toEqual({ value: "test2", text: "test2" });
+		});
+		it("should return record", () => {
+			expect(Record.setText("test", "test2")).toBe(Record);
 		});
 	});
 
@@ -478,6 +801,9 @@ describe("record.Record", () => {
 		it("should set value", () => {
 			Record.setValue("test", 2);
 			expect(Record.fields.test).toEqual({ value: 2 });
+		});
+		it("should return record", () => {
+			expect(Record.setValue("test", 2)).toBe(Record);
 		});
 	});
 });

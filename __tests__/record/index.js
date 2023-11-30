@@ -136,7 +136,7 @@ describe("record", () => {
 					test: "test2",
 				},
 			});
-			expect(Record.fields.test).toBe("test2");
+			expect(SuiteScriptMocks.records[0].fields.test).toBe("test2");
 		});
 		it("should throw error if record doesn't exist", () => {
 			expect(() => {
@@ -148,6 +148,16 @@ describe("record", () => {
 					},
 				});
 			}).toThrow();
+		});
+		it("should save fields on copy of record", () => {
+			record.submitFields({
+				id: 1,
+				type: record.Type.SALES_ORDER,
+				values: {
+					test: "test2",
+				},
+			});
+			expect(Record.fields.test).toBe(1);
 		});
 	});
 

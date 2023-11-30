@@ -2,9 +2,13 @@ const recordStub = require("suitecloud-unit-testing-stubs/stubs/record");
 const SuiteScriptMocks = require("../../index.cjs");
 const { addPromise, options } = require("../../helpers.cjs");
 const Record = require("./Record.cjs");
+const Field = require("./Field.cjs");
+const Sublist = require("./Sublist.cjs");
 
 class RecordModule {
 	Record = Record;
+	Field = Field;
+	Sublist = Sublist;
 
 	Type = recordStub.Type;
 
@@ -71,11 +75,16 @@ class RecordModule {
 		if (!record) {
 			throw new Error("Record does not exist");
 		}
-		record.fields = {
-			...record.fields,
-			...options.values,
-		};
-		return record.id;
+		const copy = new Record({
+			...record,
+			fields: {
+				...record.fields,
+				...options.values,
+			},
+			version: record.version + 1,
+		});
+		SuiteScriptMocks.records.set(copy);
+		return copy.id;
 	};
 
 	@addPromise()
