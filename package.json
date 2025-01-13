@@ -1,6 +1,6 @@
 {
 	"name": "suitescript-mocks",
-	"version": "0.3.2",
+	"version": "0.3.3",
 	"description": "Set of mocks for unit testing Netsuite Suitescript 2.*",
 	"keywords": [
 		"NetSuite",

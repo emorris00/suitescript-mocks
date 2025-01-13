@@ -47,35 +47,38 @@ module.exports = {
 Usage:
 
 The SuiteScriptMocks object exported by default by this package has a number of properties on it that control how the mocks work.
-| Property            | Description                                                                                                           |
-| ------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| outputDebugLogs     | Choose whether or not to output debug logs to the console.                                                            |
-| outputErrorLogs     | Choose whether or not to output error logs to the console.                                                            |
-| outputAuditLogs     | Choose whether or not to output audit logs to the console.                                                            |
-| currentScript       | Details loaded when using runtime.getCurrentScript()                                                                  |
-| currentUser         | Details loaded when using runtime.getCurrentUser()                                                                    |
-| currentSession      | Details loaded when using runtime.getCurrentSession()                                                                 |
-| features            | Map of which netsuite features are enabled, used by runtime.isFeatureInEffect                                         |
-| sentEmails          | List of emails sent using N/email.                                                                                    |
-| caches              | List of caches used by cache.getCache.                                                                                |
-| files               | List of files used by file.load, etc. Use File constructor when creating files to add to this.                        |
-| createdFiles        | List of files that have been created.                                                                                 |
-| savedFiles          | List of files that have been saved.                                                                                   |
-| deletedFiles        | List of files that have been deleted.                                                                                 |
-| records             | List of records used by record.load, etc. Use Record constructor when creating records to add to this.                |
-| createdRecords      | List of records that have been created.                                                                               |
-| savedRecords        | List of records that have been saved.                                                                                 |
-| deletedRecords      | List of records that have been deleted.                                                                               |
-| searches            | List of searches used by search.load, etc. Use Search constructor when creating searches to add to this.              |
-| runSearches         | List of searches that have been run.                                                                                  |
-| searchResults       | List of search results consumed by dynamically created and executed searches.                                         |
-| lookupFieldsResults | List of results consumed by search.lookupFields.                                                                      |
-| taskStatuses        | List of task statuses used by task.checkStatus.                                                                       |
-| submittedTasks      | List of submitted tasks.                                                                                              |
-| logs                | List of execution logs created by N/log                                                                               |
-| dialogs             | List of dialogs created using N/ui/dialog                                                                             |
-| dialogResults       | List of results consumed by dialog.confirm and dialog.create.                                                         |
-| messages            | List of messages created using N/ui/message                                                                           |
-| reset               | Function used to reset the state of the mocks library. Advisable to do before every test run, likely in a beforeEach. |
+| Property             | Description                                                                                                           |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| outputDebugLogs      | Choose whether or not to output debug logs to the console.                                                            |
+| outputErrorLogs      | Choose whether or not to output error logs to the console.                                                            |
+| outputAuditLogs      | Choose whether or not to output audit logs to the console.                                                            |
+| currentScript        | Details loaded when using runtime.getCurrentScript().                                                                 |
+| currentUser          | Details loaded when using runtime.getCurrentUser().                                                                   |
+| currentSession       | Details loaded when using runtime.getCurrentSession().                                                                |
+| features             | Map of which netsuite features are enabled, used by runtime.isFeatureInEffect                                         |
+| sentEmails           | List of emails sent using N/email.                                                                                    |
+| caches               | List of caches used by cache.getCache.                                                                                |
+| files                | List of files used by file.load, etc. Use File constructor when creating files to add to this.                        |
+| createdFiles         | List of files that have been created.                                                                                 |
+| savedFiles           | List of files that have been saved.                                                                                   |
+| deletedFiles         | List of files that have been deleted.                                                                                 |
+| records              | List of records used by record.load, etc. Use Record constructor when creating records to add to this.                |
+| createdRecords       | List of records that have been created.                                                                               |
+| savedRecords         | List of records that have been saved.                                                                                 |
+| deletedRecords       | List of records that have been deleted.                                                                               |
+| searches             | List of searches used by search.load, etc. Use Search constructor when creating searches to add to this.              |
+| runSearches          | List of searches that have been run.                                                                                  |
+| searchResults        | List of search results consumed by dynamically created and executed searches.                                         |
+| lookupFieldsResults  | List of results consumed by search.lookupFields.                                                                      |
+| taskStatuses         | List of task statuses used by task.checkStatus.                                                                       |
+| submittedTasks       | List of submitted tasks.                                                                                              |
+| logs                 | List of execution logs created by N/log.                                                                              |
+| dialogs              | List of dialogs created using N/ui/dialog.                                                                            |
+| dialogResults        | List of results consumed by dialog.confirm and dialog.create.                                                         |
+| messages             | List of messages created using N/ui/message.                                                                          |
+| generateBytesResults | List of results consumed by random.generateBytes.                                                                     |
+| generateIntResults   | List of results consumed by random.generateInt.                                                                       |
+| generateUUIDResults  | List of results consumed by random.generateUUID.                                                                      |
+| reset                | Function used to reset the state of the mocks library. Advisable to do before every test run, likely in a beforeEach. |
 
 For specific examples please look at the tests.
