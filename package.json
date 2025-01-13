@@ -1,6 +1,6 @@
 {
 	"name": "suitescript-mocks",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"description": "Set of mocks for unit testing Netsuite Suitescript 2.*",
 	"keywords": [
 		"NetSuite",
@@ -20,6 +20,7 @@
 		},
 		"./cache": "./lib/mocks/cache/index.cjs",
 		"./config": "./lib/mocks/config/index.cjs",
+		"./crypto/random": "./lib/mocks/crypto/random/index.cjs",
 		"./email": "./lib/mocks/email/index.cjs",
 		"./encode": "./lib/mocks/encode/index.cjs",
 		"./file": "./lib/mocks/file/index.cjs",

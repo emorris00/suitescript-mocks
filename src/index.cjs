@@ -68,6 +68,10 @@ class SuiteScriptMocks {
 		this.dialogResults = [];
 
 		this.messages = [];
+
+		this.generateBytesResults = [];
+		this.generateIntResults = [];
+		this.generateUUIDResults = [];
 	};
 
 	createUserEventContext = createUserEventContext;
@@ -77,6 +81,7 @@ class SuiteScriptMocks {
 		...SuiteCloudJestStubs.customStubs,
 		{ module: "N/cache", path: `${baseMockPath}/cache/index.cjs` },
 		{ module: "N/config", path: `${baseMockPath}/config/index.cjs` },
+		{ module: "N/crypto/random", path: `${baseMockPath}/crypto/random/index.cjs` },
 		{ module: "N/email", path: `${baseMockPath}/email/index.cjs` },
 		{ module: "N/encode", path: `${baseMockPath}/encode/index.cjs` },
 		{ module: "N/file", path: `${baseMockPath}/file/index.cjs` },
