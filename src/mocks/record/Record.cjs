@@ -146,13 +146,7 @@ class Record {
 	getCurrentSublistText = (options) => {
 		const sublist = this.#getSublist(options);
 		const field = sublist.currentline[options.fieldId];
-		if (Object.prototype.toString.call(field) === "[object Date]") {
-			return datefns.format(field, SuiteScriptMocks.dateFormat);
-		}
-		if (typeof field === "object" && field !== null) {
-			return field.text || field.value;
-		}
-		return field;
+		return parseText(field, this.isDynamic, "getCurrentSublistText");
 	};
 
 	@dynamicModeOnly()
@@ -165,14 +159,7 @@ class Record {
 			return null;
 		}
 		const field = sublist.currentline[options.fieldId];
-		if (
-			typeof field === "object" &&
-			field !== null &&
-			!(Object.prototype.toString.call(field) === "[object Date]")
-		) {
-			return field.value;
-		}
-		return field;
+		return parseValue(field);
 	};
 
 	@options("fieldId")
@@ -257,18 +244,7 @@ class Record {
 	getSublistText = (options) => {
 		const line = this.#getLine(options);
 		const field = line[options.fieldId];
-		if (Object.prototype.toString.call(field) === "[object Date]") {
-			return datefns.format(field, SuiteScriptMocks.dateFormat);
-		}
-		if (typeof field === "object" && field !== null) {
-			if (!this.isDynamic && !("text" in field)) {
-				throw new Error(
-					"Cannot use getSublistText on field that has had value but not text set in standard mode",
-				);
-			}
-			return field.text || field.value;
-		}
-		return field;
+		return parseText(field, this.isDynamic, "getSublistText");
 	};
 
 	@options("sublistId", "fieldId", "line")
@@ -276,14 +252,7 @@ class Record {
 	getSublistValue = (options) => {
 		const line = this.#getLine(options);
 		const field = line[options.fieldId];
-		if (
-			typeof field === "object" &&
-			field !== null &&
-			!(Object.prototype.toString.call(field) === "[object Date]")
-		) {
-			return field.value;
-		}
-		return field;
+		return parseValue(field);
 	};
 
 	@options("fieldId")
@@ -299,26 +268,14 @@ class Record {
 	@required("fieldId")
 	getText = (options) => {
 		const field = this.fields[options.fieldId];
-		if (Object.prototype.toString.call(field) === "[object Date]") {
-			return datefns.format(field, SuiteScriptMocks.dateFormat);
-		}
-		if (typeof field === "object" && field !== null) {
-			if (!this.isDynamic && !("text" in field)) {
-				throw new Error("Cannot use getText on field that has had value but not text set in standard mode");
-			}
-			return field.text || field.value;
-		}
-		return field;
+		return parseText(field, this.isDynamic, "getText");
 	};
 
 	@options("fieldId")
 	@required("fieldId")
 	getValue = (options) => {
 		const field = this.fields[options.fieldId];
-		if (typeof field === "object" && field !== null && Object.prototype.toString.call(field) !== "[object Date]") {
-			return field.value;
-		}
-		return field;
+		return parseValue(field);
 	};
 
 	@dynamicModeOnly()
@@ -535,6 +492,33 @@ class Record {
 		this.fields[options.fieldId] = { value: options.value };
 		return this;
 	};
+}
+
+function parseValue(field) {
+	if (Array.isArray(field)) {
+		return field;
+	} else if (
+		typeof field === "object" &&
+		field !== null &&
+		Object.prototype.toString.call(field) !== "[object Date]"
+	) {
+		return field.value;
+	}
+	return field;
+}
+
+function parseText(field, isDynamic, funcName) {
+	if (Object.prototype.toString.call(field) === "[object Date]") {
+		return datefns.format(field, SuiteScriptMocks.dateFormat);
+	} else if (Array.isArray(field)) {
+		return String(field);
+	} else if (typeof field === "object" && field !== null) {
+		if (!isDynamic && !("text" in field)) {
+			throw new Error(`Cannot use ${funcName} on field that has had value but not text set in standard mode`);
+		}
+		return field.text || field.value;
+	}
+	return field;
 }
 
 module.exports = Record;

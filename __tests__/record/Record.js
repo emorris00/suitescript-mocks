@@ -12,6 +12,7 @@ beforeEach(() => {
 			test: 1,
 			test2: { value: 2, text: "test2" },
 			testdate: new Date("2023-01-01"),
+			testarray: [1, 2, 3],
 		},
 		sublists: {
 			test: [
@@ -19,6 +20,7 @@ beforeEach(() => {
 					test: 1,
 					test2: { value: 2, text: "test2" },
 					testdate: new Date("2023-01-01"),
+					testarray: [1, 2, 3],
 					testsubrecord: new record.Record({
 						id: 2,
 						fields: {
@@ -190,6 +192,9 @@ describe("record.Record", () => {
 				Record.getCurrentSublistText("doesntexist", "test");
 			}).toThrow();
 		});
+		it("should return array string if value is array", () => {
+			expect(Record.getCurrentSublistText("test", "testarray")).toBe("1,2,3");
+		});
 	});
 
 	describe("getCurrentSublistValue", () => {
@@ -208,6 +213,9 @@ describe("record.Record", () => {
 		it("should return undefined if the sublist field doesn't exist", () => {
 			expect(Record.getCurrentSublistValue("test", "doesntexist")).toBe(undefined);
 		});
+		it("should return array if its an array", () => {
+			expect(Record.getCurrentSublistValue("test", "testarray")).toEqual([1, 2, 3]);
+		});
 	});
 
 	describe("getField", () => {
@@ -221,7 +229,7 @@ describe("record.Record", () => {
 
 	describe("getFields", () => {
 		it("should return list of field ids", () => {
-			expect(Record.getFields()).toEqual(["test", "test2", "testdate"]);
+			expect(Record.getFields()).toEqual(["test", "test2", "testdate", "testarray"]);
 		});
 	});
 
@@ -265,7 +273,13 @@ describe("record.Record", () => {
 
 	describe("getSublistFields", () => {
 		it("should return list of field ids", () => {
-			expect(Record.getSublistFields("test")).toEqual(["test", "test2", "testdate", "testsubrecord"]);
+			expect(Record.getSublistFields("test")).toEqual([
+				"test",
+				"test2",
+				"testdate",
+				"testarray",
+				"testsubrecord",
+			]);
 		});
 	});
 
@@ -321,6 +335,9 @@ describe("record.Record", () => {
 				Record.getSublistText("test", "test3", 0);
 			}).toThrow();
 		});
+		it("should return array string if value is array", () => {
+			expect(Record.getSublistText("test", "testarray", 0)).toBe("1,2,3");
+		});
 	});
 
 	describe("getSublistValue", () => {
@@ -342,6 +359,9 @@ describe("record.Record", () => {
 			expect(() => {
 				Record.getSublistValue("test", "test", -1);
 			}).toThrow();
+		});
+		it("should return array if its an array", () => {
+			expect(Record.getSublistValue("test", "testarray", 0)).toEqual([1, 2, 3]);
 		});
 	});
 
@@ -381,6 +401,9 @@ describe("record.Record", () => {
 				Record.getText("test3");
 			}).toThrow();
 		});
+		it("should return array string if value is array", () => {
+			expect(Record.getText("testarray")).toBe("1,2,3");
+		});
 	});
 
 	describe("getValue", () => {
@@ -395,6 +418,9 @@ describe("record.Record", () => {
 		});
 		it("should return Date object if its a date", () => {
 			expect(Object.prototype.toString.call(Record.getValue("testdate"))).toBe("[object Date]");
+		});
+		it("should return array if its an array", () => {
+			expect(Record.getValue("testarray")).toEqual([1, 2, 3]);
 		});
 	});
 
