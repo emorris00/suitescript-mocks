@@ -8,7 +8,7 @@ class Script {
 	id;
 	logLevel;
 	percentComplete;
-	parameters;
+	parameters = {};
 
 	@options("name")
 	@required("name")

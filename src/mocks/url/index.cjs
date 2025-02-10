@@ -15,7 +15,7 @@ class UrlModule {
 	resolveDomain = () => {};
 
 	@options("isEditMode", "recordId", "recordType", "params")
-	@required("isEditMode", "recordId", "recordType")
+	@required("recordType")
 	resolveRecord = () => {};
 
 	@options("deploymentId", "scriptId", "params", "returnExternalUrl")
