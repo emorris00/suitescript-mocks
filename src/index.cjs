@@ -1,6 +1,9 @@
 const SuiteCloudJestStubs = require("suitecloud-unit-testing-stubs");
 const KeyedSet = require("./keyed-set.cjs");
 const { addKeyedSetGetSet, createUserEventContext, UserEventType } = require("./helpers.cjs");
+const RuntimeScript = require("./mocks/runtime/Script.cjs");
+const RuntimeUser = require("./mocks/runtime/User.cjs");
+const RuntimeSession = require("./mocks/runtime/Session.cjs");
 
 const baseMockPath = "<rootDir>/node_modules/suitescript-mocks/lib/mocks";
 
@@ -35,9 +38,9 @@ class SuiteScriptMocks {
 		this.outputEmergencyLogs = false;
 		this.outputErrorLogs = false;
 
-		this.currentScript = {};
-		this.currentUser = {};
-		this.currentSession = {};
+		this.currentScript = new RuntimeScript();
+		this.currentUser = new RuntimeUser();
+		this.currentSession = new RuntimeSession();
 		this.features = {};
 
 		this.sentEmails = [];
