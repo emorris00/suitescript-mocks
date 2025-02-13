@@ -1,6 +1,6 @@
 {
 	"name": "suitescript-mocks",
-	"version": "0.3.6",
+	"version": "0.3.7",
 	"description": "Set of mocks for unit testing Netsuite Suitescript 2.*",
 	"keywords": [
 		"NetSuite",
@@ -126,7 +126,7 @@
 		"@babel/core": "^7.23.2",
 		"@babel/eslint-parser": "^7.22.15",
 		"@babel/plugin-proposal-decorators": "^7.23.2",
-		"@oracle/suitecloud-unit-testing": "^1.4.1",
+		"@oracle/suitecloud-unit-testing": "^1.7.0",
 		"eslint": "^8.52.0",
 		"eslint-config-google": "^0.14.0",
 		"eslint-config-prettier": "^9.0.0",
