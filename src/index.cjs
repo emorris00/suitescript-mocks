@@ -15,22 +15,22 @@ class SuiteScriptMocks {
 
 	@addKeyedSetGetSet()
 	#files = new KeyedSet(
-		(file) => file.id,
+		(file) => String(file.id),
 		(file) => [file.folder, file.name],
 	);
 
 	@addKeyedSetGetSet()
-	#records = new KeyedSet((record) => [record.id, record.type]);
+	#records = new KeyedSet((record) => [String(record.id), record.type]);
 
 	@addKeyedSetGetSet()
 	#searches = new KeyedSet(
-		(search) => search.id,
-		(search) => search.searchId,
+		(search) => String(search.id),
+		(search) => String(search.searchId),
 		(search) => search.title,
 	);
 
 	@addKeyedSetGetSet()
-	#taskStatuses = new KeyedSet((task) => task.id);
+	#taskStatuses = new KeyedSet((task) => String(task.id));
 
 	reset = () => {
 		this.outputAuditLogs = false;

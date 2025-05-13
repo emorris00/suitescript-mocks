@@ -46,6 +46,14 @@ describe("record", () => {
 			copy.setSublistValue("item", "item", 0, 2);
 			expect(Record.sublists.item.lines[0].item).toBe(1);
 		});
+		it("should work if id provided is a string", () => {
+			expect(() => {
+				record.load({
+					id: "1",
+					type: record.Type.SALES_ORDER,
+				});
+			}).not.toThrow();
+		});
 	});
 
 	describe("create", () => {
@@ -100,6 +108,14 @@ describe("record", () => {
 			expect(SuiteScriptMocks.deletedRecords[0].id).toBe(1);
 			expect(SuiteScriptMocks.deletedRecords[0].type).toBe(record.Type.SALES_ORDER);
 		});
+		it("should work if id provided is a string", () => {
+			expect(() => {
+				record.delete({
+					id: "1",
+					type: record.Type.SALES_ORDER,
+				});
+			}).not.toThrow();
+		});
 	});
 
 	describe("detach", () => {});
@@ -124,6 +140,14 @@ describe("record", () => {
 			expect(Record.fields.test).toBe(1);
 			loadedRecord.setSublistValue("item", "item", 0, 2);
 			expect(Record.sublists.item.lines[0].item).toBe(1);
+		});
+		it("should work if id provided is a string", () => {
+			expect(() => {
+				record.load({
+					id: "1",
+					type: record.Type.SALES_ORDER,
+				});
+			}).not.toThrow();
 		});
 	});
 
@@ -159,6 +183,17 @@ describe("record", () => {
 			});
 			expect(Record.fields.test).toBe(1);
 		});
+		it("should work if id provided is a string", () => {
+			expect(() => {
+				record.submitFields({
+					id: "1",
+					type: record.Type.SALES_ORDER,
+					values: {
+						test: "test2",
+					},
+				});
+			}).not.toThrow();
+		});
 	});
 
 	describe("transform", () => {
@@ -190,6 +225,15 @@ describe("record", () => {
 					toType: record.Type.ITEM_FULFILLMENT,
 				});
 			}).toThrow();
+		});
+		it("should work if id provided is a string", () => {
+			expect(() => {
+				record.transform({
+					fromType: record.Type.SALES_ORDER,
+					fromId: "1",
+					toType: record.Type.ITEM_FULFILLMENT,
+				});
+			}).not.toThrow();
 		});
 	});
 });
