@@ -4,6 +4,7 @@ const { randomUUID } = require("node:crypto");
 const SuiteScriptMocks = require("../../index.cjs");
 const Field = require("./Field.cjs");
 const Sublist = require("./Sublist.cjs");
+const defaultSublists = require("./default-sublists.cjs");
 const {
 	options,
 	required,
@@ -44,6 +45,14 @@ class Record {
 			});
 			return acc;
 		}, {});
+		(defaultSublists[this.type] || []).forEach((sublist) => {
+			if (!(sublist in this.sublists)) {
+				this.sublists[sublist] = {
+					currentline: {},
+					lines: [],
+				};
+			}
+		});
 		this.subrecords = Object.entries(this.subrecords || {}).reduce((acc, [subrecordId, subrecord]) => {
 			acc[subrecordId] = new Record(subrecord);
 			return acc;

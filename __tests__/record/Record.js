@@ -48,6 +48,22 @@ beforeEach(() => {
 });
 
 describe("record.Record", () => {
+	describe("initialize", () => {
+		it("should initialize default sublists", () => {
+			expect(() => {
+				Record.selectNewLine("item");
+				Record.selectNewLine("paymentevent");
+				Record.selectNewLine("contacts");
+				Record.selectNewLine("events");
+				Record.selectNewLine("tasks");
+				Record.selectNewLine("calls");
+				Record.selectNewLine("mediaitem");
+				Record.selectNewLine("usernotes");
+				Record.selectNewLine("giftcertredemption");
+			}).not.toThrow();
+		});
+	});
+
 	describe("cancelLine", () => {
 		beforeEach(() => {
 			Record.selectLine("test", 0);
@@ -253,7 +269,18 @@ describe("record.Record", () => {
 
 	describe("getSublists", () => {
 		it("should return list of sublist ids", () => {
-			expect(Record.getSublists()).toEqual(["test"]);
+			expect(Record.getSublists()).toEqual([
+				"test",
+				"item",
+				"paymentevent",
+				"contacts",
+				"events",
+				"tasks",
+				"calls",
+				"mediaitem",
+				"usernotes",
+				"giftcertredemption",
+			]);
 		});
 	});
 
